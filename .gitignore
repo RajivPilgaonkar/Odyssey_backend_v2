@@ -1,0 +1,9 @@
+node_modules
+content
+client
+inv
+log
+img/web_images
+config/.env
+config/.env.production
+routes/mailCredentials.js

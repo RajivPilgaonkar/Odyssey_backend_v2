@@ -1,0 +1,38 @@
+1. Check the node version 
+	node -v {on the command prompt}
+
+2. node app.js
+	From the browser, //localhost:5100/db/getTest
+		This should display 'test'
+	From the browser, //localhost:5100/db/getCities
+		If you don't see the list of cities
+		Go to the command prompt window, where you typed 'node app.js'
+		If this shows a connect to DB error, then try installing SP2 of SQLExpress
+
+3. Try connecting through Postman
+
+4. Check the .env file in the config directory at the BACKEND
+DB_USERNAME=sa
+DB_PASSWORD=sa123@pwd
+DB_NAME=Jadoo_2006
+DB_HOSTNAME=localhost
+DB_DIALECT=mssql
+DB_PORT=1433
+PORT=5100
+**CLIENT_ID=31xxx.apps.googleusercontent.com
+**CLIENT_SECRET=xxx
+**REDIRECT_URI=https://developers.google.com/oauthplayground
+**REFRESH_TOKEN=xxx
+**GMAIL_USERNAME=xx@gmail.com
+GMAIL_SEND_TO_RECIPIENT=1
+
+5. **In SQL Server Configuration Manager**
+* Protocols from SQL Server - TCP/IP Enabled
+* Right Click TCP/IP Properties -> IP Addresses tab -> Right at the bottom IP(All) -> TCP Port: 1433
+
+6. **Check .env file from the desktop/dev folder in the FRONT end**
+* Create `.env` file
+* REACT_APP_HOST=http://192.168.1.138 or http://localhost
+* REACT_APP_PORT=5100
+
+
