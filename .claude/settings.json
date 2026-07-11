@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sI -A \"Mozilla/5.0\" \"https://upload.wikimedia.org/wikipedia/commons/9/9d/Colosseo_2020.jpg\" --max-time 15)",
+      "Bash(curl -sI -A \"Mozilla/5.0\" -L \"https://picsum.photos/1200/800.jpg\" --max-time 15)",
+      "Bash(curl -sI -A \"Mozilla/5.0\" \"https://picsum.photos/id/1015/1200/800.jpg\" --max-time 15)",
+      "Bash(curl -s \"https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=Colosseum&srnamespace=6&format=json&srlimit=3\" --max-time 15 -A \"Mozilla/5.0\")",
+      "Bash(curl -s \"https://commons.wikimedia.org/w/api.php?action=query&titles=File:Colosseum%20in%20Rome,%20Italy%20-%20April%202007.jpg&prop=imageinfo&iiprop=url&format=json\" --max-time 15 -A \"Mozilla/5.0\")",
+      "Bash(curl -sI -A \"Mozilla/5.0\" \"https://upload.wikimedia.org/wikipedia/commons/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg\" --max-time 15)",
+      "Bash(curl -s -G https://live.vamoos.com/v3/itinerary --data-urlencode archived=on --data-urlencode 'f={\"reference_code\":\"Rajiv Italy\"}' -H 'X-USER-ACCESS-TOKEN: mrc0jgivLtsXK7lUwfMehw6qQtTdGvo29g43Ysoc' -H 'X-OPERATOR-CODE: OdysseyIndia' --max-time 20)"
+    ]
+  }
+}
