@@ -4,6 +4,16 @@ const vamoosDbQueries = require('./vamoosDbQueries');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Vamoos expects dates as YYYY-MM-DD; SQL Server DATETIME columns come back either as a
+// JS Date object or as a "YYYY-MM-DD HH:mm:ss" string depending on the driver, so handle both.
+function toDateOnly(value) {
+  if (!value) return undefined;
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+  return String(value).slice(0, 10);
+}
+
 async function waitForJob(jobId, headers) {
   const job_url = `${keys.vamoosHost}/job/${jobId}`;
 
@@ -36,6 +46,31 @@ async function resolveResponse(response, headers) {
   }
 
   return job;
+}
+
+// Vamoos' Unsplash proxy returns image_url with a stray extra "?" (it should be "&")
+// separating the ixlib param from the resize params. Vamoos still fetches the raw file fine,
+// but its thumbnail/variant generator chokes on the malformed URL and silently produces no
+// variants, so apps have nothing to display and fall back to the itinerary's background image.
+function fixUnsplashUrl(url) {
+  const parts = url.split('?');
+  return parts.length <= 2 ? url : `${parts[0]}?${parts.slice(1).join('&')}`;
+}
+
+// Looks up stock photos for a search term via Vamoos' own Unsplash proxy (the same
+// source that powers the "suggested images" grid in the portal editor), and returns them
+// in the shape expected by a library_node_upload (file_url + name).
+async function findStockImages(term, count, headers) {
+  const search_url = `${keys.vamoosHost}/proxies/unsplash/search?term=${encodeURIComponent(term)}&count=${count}`;
+
+  const { data } = await axios.get(search_url, { headers });
+
+  return (data || []).map((result) => ({
+    file_url: fixUnsplashUrl(result.image_url),
+    name: (result.attribution && result.attribution.author_name)
+      ? `Photo by ${result.attribution.author_name} on Unsplash`
+      : term
+  }));
 }
 
 // Vamoos reference_codes (passcodes) stay reserved even once deactivated, so a plain
@@ -75,7 +110,7 @@ module.exports = (app,db,sequelize) => {
     console.log('[vamoosAPI] db data', vamoosData);
 
     const operator_code = req.body.operator_code || keys.vamoosOperatorCode;
-    const reference_code = req.body.reference_code || String(vamoosData.quoPrint.QuoPrint_id);
+    const reference_code = req.body.reference_code || String(vamoosData.quoPrint.Quotations_id);
 
     if (!reference_code) {
       return res.status(400).json({ message: 'reference_code is required' });
@@ -94,13 +129,58 @@ module.exports = (app,db,sequelize) => {
 
       // basic trial payload, following the Vamoos "Create An Itinerary" guide
       const itinerary_data = {
-        departure_date: req.body.departure_date || '2020-09-22',
-        return_date: req.body.return_date || '2020-09-30',
-        field1: req.body.field1 || 'Rome Trip 2020',
+        departure_date: req.body.departure_date || toDateOnly(vamoosData.quoPrint.StartDate) || '2020-09-22',
+        return_date: req.body.return_date || toDateOnly(vamoosData.quoPrint.EndDate) || '2020-09-30',
+        field1: vamoosData.quoPrint.country || 'Rome Trip 2020',
+        field3: vamoosData.quoPrint.PaxInfo || '--',
+        client_reference: vamoosData.quoPrint.Reference || '',
         background: req.body.background || {
           file_url: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg',
-          name: 'Colosseum Rome'
+          name: "Colosseum"
         },
+        locations: req.body.locations || [
+          {
+            name: 'Vamoosia',
+            description: 'A fictional test city used to try out the locations field.',
+            latitude: 12.3456,
+            longitude: 65.4321
+          },
+          {
+            name: 'Trialburg',
+            description: 'A second fictional test city, for checking multiple locations at once.',
+            latitude: -8.1234,
+            longitude: 34.5678
+          }
+        ],
+        details: req.body.details || await (async () => {
+          // fetch enough images per city up front (one per occurrence) so repeats of the
+          // same city cycle through different photos instead of reusing the same one
+          const occurrencesByCity = {};
+          vamoosData.quoPrintDays.forEach((day) => {
+            occurrencesByCity[day.city] = (occurrencesByCity[day.city] || 0) + 1;
+          });
+
+          const imagesByCity = {};
+          await Promise.all(Object.keys(occurrencesByCity).map(async (city) => {
+            imagesByCity[city] = await findStockImages(city, occurrencesByCity[city], headers);
+          }));
+
+          const usedCountByCity = {};
+          return vamoosData.quoPrintDays.map((day) => {
+            const images = imagesByCity[day.city] || [];
+            const index = usedCountByCity[day.city] || 0;
+            usedCountByCity[day.city] = index + 1;
+            const image = images[index % (images.length || 1)];
+
+            return {
+              headline: day.city,
+              content: day.DaySummaryInfo,
+              content_type: 'html',
+              meta: { day_number: day.SrNo },
+              ...(image ? { image } : {})
+            };
+          });
+        })(),
         ...(vamoos_id ? { vamoos_id, is_active: true } : {})
       };
 
