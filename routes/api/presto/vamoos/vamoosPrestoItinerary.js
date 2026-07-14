@@ -1,6 +1,9 @@
 const axios = require('axios');
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
 const keys = require('../../../../config/keys');
 const vamoosDbQueries = require('./vamoosDbQueries');
+const { getTourHotelsAgents } = require('../../../reports/presto/prestoTourHotelsAgents');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -58,10 +61,20 @@ async function getImsertApiKey(headers) {
   return data.api_key;
 }
 
+// Local-fallback uploads are named "city_<cities_id>_large_<srno>.jpg" (see findLocalImage).
+// Imsert indexes the operator's own Vamoos library, so once one of these generic recycled city
+// shots has been uploaded, Imsert can and does serve it back as an "AI match" for an unrelated
+// search (e.g. a hotel name in the same small town) when it has nothing genuine to offer -
+// confirmed happening between the "Teekoy" city card and the "Vanilla County" hotel card, which
+// both ended up with the same recycled Teekoy countryside photo under different file IDs.
+const LOCAL_FALLBACK_NAME_PATTERN = /^city_\d+_large_\d+\.jpg$/i;
+
 // Looks up photos for a search term via Imsert's own search API (separate from Vamoos), skipping
 // any already claimed by another card (Imsert indexes the same underlying operator S3 storage
-// the Library search covers, plus more, so the same photo can surface via either path). Fetches
-// a small buffer beyond `count` to have room to skip duplicates and still return enough results.
+// the Library search covers, plus more, so the same photo can surface via either path), and any
+// result that's actually one of our own recycled local-fallback uploads rather than a genuine
+// match. Fetches a small buffer beyond `count` to have room to skip these and still return enough
+// results.
 async function findImsertImages(term, count, imsertApiKey, usedImageIds) {
   const { data } = await axios.post('https://live.imsert.com/search',
     { text: { high: { text: term } }, perPage: count + 5, page: 1 },
@@ -69,11 +82,14 @@ async function findImsertImages(term, count, imsertApiKey, usedImageIds) {
 
   const results = [];
   for (const result of (data.results || [])) {
+    const name = result.image.name || term;
+    if (LOCAL_FALLBACK_NAME_PATTERN.test(name)) continue;
+
     const key = `imsert:${result.image.imageUrl.split('?')[0]}`;
     if (usedImageIds.has(key)) continue;
 
     usedImageIds.add(key);
-    results.push({ file_url: result.image.imageUrl, name: result.image.name || term });
+    results.push({ file_url: result.image.imageUrl, name });
     if (results.length >= count) break;
   }
 
@@ -93,13 +109,24 @@ async function listLibraryImages(headers) {
     !item.is_folder && item.file && item.file.mime_type && item.file.mime_type.startsWith('image/'));
 }
 
-// Finds an already-uploaded library image whose name contains the search term (case-insensitive
-// substring match) and hasn't already been claimed by another card, returning it as a
-// file_id_upload_object so Vamoos reuses the existing file instead of re-uploading it, or null
-// if nothing matches. Marks whatever it returns as used so no two cards get the same photo.
+// Strips everything but letters/digits so names can be compared regardless of spacing/
+// punctuation differences - e.g. a DB hotel name of "The Tower House" needs to match a Library
+// upload saved as "TheTowerHouse", which a plain substring check on the raw strings would miss.
+function normalizeForMatch(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+// Finds an already-uploaded library image whose name contains the search term (normalized,
+// case/spacing/punctuation-insensitive substring match) and hasn't already been claimed by
+// another card, returning it as a file_id_upload_object so Vamoos reuses the existing file
+// instead of re-uploading it, or null if nothing matches. Marks whatever it returns as used so
+// no two cards get the same photo.
 function findLibraryImage(libraryImages, term, usedImageIds) {
+  if (!term) return null;
+
+  const normalizedTerm = normalizeForMatch(term);
   const match = libraryImages.find((item) =>
-    item.name.toLowerCase().includes(term.toLowerCase()) && !usedImageIds.has(`library:${item.file.id}`));
+    normalizeForMatch(item.name).includes(normalizedTerm) && !usedImageIds.has(`library:${item.file.id}`));
 
   if (!match) return null;
 
@@ -109,9 +136,20 @@ function findLibraryImage(libraryImages, term, usedImageIds) {
 
 // Downloads a file from a URL our own backend can reach (e.g. the operator's local image
 // library over the LAN) and re-uploads it to Vamoos' own S3 storage via its presigned-upload
-// flow, since Vamoos' cloud servers can't reach a private LAN address themselves. Returns it
-// in library_node_upload shape, or null if the source URL isn't reachable/doesn't exist.
-async function uploadLocalFile(source_url, filename, headers) {
+// flow, since Vamoos' cloud servers can't reach a private LAN address themselves. Reuses an
+// existing Library upload with the same filename instead of re-uploading a fresh duplicate every
+// run - without this, every re-run was creating a brand-new S3 copy of the same local photo,
+// and Imsert (which indexes the Library) would occasionally serve an old duplicate back to an
+// unrelated card. Returns it in library_node_upload shape, or null if there's no existing upload
+// and the source URL isn't reachable either.
+async function uploadLocalFile(source_url, filename, headers, libraryImages, usedImageIds) {
+  const existing = libraryImages.find((item) => item.name === filename);
+  if (existing) {
+    if (usedImageIds.has(`library:${existing.file.id}`)) return null;
+    usedImageIds.add(`library:${existing.file.id}`);
+    return { file_id: existing.file.id, name: existing.name };
+  }
+
   let bytes;
   try {
     const response = await axios.get(source_url, { responseType: 'arraybuffer' });
@@ -129,54 +167,117 @@ async function uploadLocalFile(source_url, filename, headers) {
   return { file_url: upload.s3url, name: filename };
 }
 
+// Renders the same "Hotel/Agent services" PDF as the /reports/presto/tourHotelsAgents route
+// (built from EXEC p_Rpt_QuoTourHotelAgentList), but in-memory instead of streamed to a response,
+// so its bytes can be uploaded to Vamoos as an itinerary document.
+async function generateTourHotelsAgentsPdf(quoPrint_id, quotations_id, sequelize) {
+  const doc = new PDFDocument({
+    margins: { top: 36, bottom: 18, left: 36, right: 36 },
+    layout: 'landscape'
+  });
+
+  const chunks = [];
+  doc.on('data', (chunk) => chunks.push(chunk));
+  const ended = new Promise((resolve) => doc.on('end', resolve));
+
+  const fakeReq = { body: { data: { quoPrint_id, quotations_id } } };
+  const noopRes = { status: () => ({ json: () => {} }) };
+
+  await getTourHotelsAgents(fakeReq, noopRes, sequelize, doc, fs, 'presto/tourHotelAgents.pdf', false);
+  doc.end();
+  await ended;
+
+  return Buffer.concat(chunks);
+}
+
+// Uploads already-generated file bytes (e.g. the services PDF above) to Vamoos' own S3 storage
+// via its presigned-upload flow, same as uploadLocalFile but skipping the download step.
+async function uploadBytes(bytes, filename, content_type, headers) {
+  const { data: upload } = await axios.post(`${keys.vamoosHost}/file/upload_url`,
+    { filename, content_type },
+    { headers });
+
+  await axios.put(upload.url, bytes, { headers: { 'Content-Type': content_type } });
+
+  return { file_url: upload.s3url, name: filename };
+}
+
 // Checks whether the operator's own local city photo library has a numbered shot for this
 // city/occurrence (e.g. .../city/city_103_large_2.jpg). Returns null if that file doesn't
 // exist, so the caller can fall back to a stock photo.
-async function findLocalImage(imageBaseUrl, cities_id, srno, headers) {
+async function findLocalImage(imageBaseUrl, cities_id, srno, headers, libraryImages, usedImageIds) {
   if (!imageBaseUrl || !cities_id) return null;
 
   const base = imageBaseUrl.endsWith('/') ? imageBaseUrl : `${imageBaseUrl}/`;
   const filename = `city_${cities_id}_large_${srno}.jpg`;
 
-  return uploadLocalFile(`${base}city/${filename}`, filename, headers);
+  return uploadLocalFile(`${base}city/${filename}`, filename, headers, libraryImages, usedImageIds);
 }
 
 // The operator's local "home/explore_1.jpg" image, used as the itinerary's cover photo.
 // Returns null if that file doesn't exist, so the caller can fall back to a stock photo.
-async function findLocalHomeImage(imageBaseUrl, headers) {
+async function findLocalHomeImage(imageBaseUrl, headers, libraryImages, usedImageIds) {
   if (!imageBaseUrl) return null;
 
   const base = imageBaseUrl.endsWith('/') ? imageBaseUrl : `${imageBaseUrl}/`;
 
-  return uploadLocalFile(`${base}home/explore_1.jpg`, 'explore_1.jpg', headers);
+  return uploadLocalFile(`${base}home/explore_1.jpg`, 'explore_1.jpg', headers, libraryImages, usedImageIds);
+}
+
+// Vamoos' public directory of registered "Stay" itineraries (hotels/properties that publish
+// their own guest-facing Vamoos itinerary). Setting a location's `vamoos_id` to one of these is
+// what produces the richer "nested" accommodation display/icon on the phone - confirmed by
+// comparing a manually-built itinerary's locations (which had this) against our own (which
+// didn't). Only accepts a result whose name actually contains the search term (after the same
+// space/punctuation-insensitive normalization used for Library matching), to avoid linking to an
+// unrelated property on a weak/generic search match. Returns null if nothing qualifies.
+async function findRegisteredStay(hotelName, headers) {
+  // Vamoos' validation rejects "(" and ")" left un-escaped by encodeURIComponent (same class of
+  // issue as the "f" filter param elsewhere in this file) - hotel names like "Kettuvallam
+  // (Houseboat)" would otherwise 400 and abort the whole Promise.all in buildHotelLocations.
+  const q = encodeURIComponent(hotelName).replace(/[()]/g, (c) => (c === '(' ? '%28' : '%29'));
+  const list_url = `${keys.vamoosHost}/itinerary/stays?q=${q}&count=5`;
+  const { data } = await axios.get(list_url, { headers });
+
+  const normalizedTerm = normalizeForMatch(hotelName);
+  const match = (data.items || []).find((item) => normalizeForMatch(item.name).includes(normalizedTerm));
+
+  return match ? match.vamoos_id : null;
 }
 
 // Builds one locations[] entry per unique hotel (deduped by name) from the hotel-by-day query,
 // assigning each a stable internal_id, plus a day-number -> internal_id map so each day's
-// storyboard card can be "connected" to its hotel via location_internal_id.
-function buildHotelLocations(hotelsByDay) {
-  const locations = [];
+// storyboard card can be "connected" to its hotel via location_internal_id. Also looks up each
+// hotel in Vamoos' public Stays directory, linking the location to it via `vamoos_id` if found.
+async function buildHotelLocations(hotelsByDay, headers) {
   const internalIdByHotelName = {};
   const internalIdByDayNo = {};
+  const uniqueHotelRows = [];
   let nextInternalId = 1;
 
   hotelsByDay.forEach((row) => {
     if (!row.Hotel) return;
 
     if (!internalIdByHotelName[row.Hotel]) {
-      const internal_id = nextInternalId++;
-      internalIdByHotelName[row.Hotel] = internal_id;
-      locations.push({
-        internal_id,
-        name: row.Hotel,
-        latitude: row.Latitude,
-        longitude: row.Longitude,
-        description: [row.address, row.Contact].filter(Boolean).join(' — ')
-      });
+      internalIdByHotelName[row.Hotel] = nextInternalId++;
+      uniqueHotelRows.push(row);
     }
 
     internalIdByDayNo[row.DayNo] = internalIdByHotelName[row.Hotel];
   });
+
+  const locations = await Promise.all(uniqueHotelRows.map(async (row) => {
+    const stayVamoosId = await findRegisteredStay(row.Hotel, headers);
+
+    return {
+      internal_id: internalIdByHotelName[row.Hotel],
+      name: row.Hotel,
+      latitude: row.Latitude,
+      longitude: row.Longitude,
+      description: [row.address, row.Contact].filter(Boolean).join(' — '),
+      ...(stayVamoosId ? { vamoos_id: stayVamoosId } : {})
+    };
+  }));
 
   return { locations, internalIdByDayNo };
 }
@@ -212,6 +313,25 @@ function trimAccommodationDesc(text) {
     /\b(?:Non-AC|AC)\s+(.+?)\s+on\s+a\s+.+?\s+basis\s+from\s+\d{2}-\d{2}-\d{4}\s+to\s+\d{2}-\d{2}-\d{4}\s+(\([^)]*night[^)]*\))/i);
 
   return match ? `Stay in ${match[1]} ${match[2]}` : null;
+}
+
+// Accommodation rows in the chronological services list (EXEC p_Rpt_QuoTourHotelAgentList) are
+// identified by their ServiceDesc mentioning room types together with a meal-plan clause, e.g.
+// "1 Double and 1 Twin AC Heritage Splendour Rooms on a Bed & breakfast basis...".
+const ACCOMMODATION_ROW_PATTERN = /\b(?:Single|Double|Twin|Triple)\b.*\bon\s+a\b.*\bbasis\b/i;
+
+// Builds a day-number -> hotel contact map from the same chronological services list, so hotel
+// storyboard cards can include the contact number that's listed against the accommodation row
+// itself for that day (a separate source from getHotelsByDay's own Contact lookup).
+function buildHotelContactByDayNo(servicesByDay) {
+  const contactByDayNo = {};
+  servicesByDay.forEach((row) => {
+    if (row.Contact && ACCOMMODATION_ROW_PATTERN.test(row.ServiceDesc || '')) {
+      contactByDayNo[row.DayNo] = row.Contact;
+    }
+  });
+
+  return contactByDayNo;
 }
 
 // Builds a day-number -> HTML string map from the chronological services list (per
@@ -291,7 +411,7 @@ module.exports = (app,db,sequelize) => {
 
     try {
       const vamoos_id = await findExistingVamoosId(operator_code, reference_code, headers);
-      const { locations: hotelLocations, internalIdByDayNo } = buildHotelLocations(vamoosData.hotelsByDay);
+      const { locations: hotelLocations, internalIdByDayNo } = await buildHotelLocations(vamoosData.hotelsByDay, headers);
       const imsertApiKey = await getImsertApiKey(headers);
       const libraryImages = await listLibraryImages(headers);
 
@@ -303,6 +423,17 @@ module.exports = (app,db,sequelize) => {
       // sourced through Library/Imsert (properly re-hosted with sharp variants) rather than the
       // static Wikipedia fallback, which is only used if neither source has a match
       const backgroundImages = await findImsertImages('Taj Mahal', 3, imsertApiKey, usedImageIds);
+
+      // attach the same "Hotel/Agent services" PDF the /reports/presto/tourHotelsAgents route
+      // produces, as a Document on the itinerary - best-effort, so a PDF failure doesn't block
+      // the whole itinerary from being created/updated
+      let servicesDocument = null;
+      try {
+        const pdfBytes = await generateTourHotelsAgentsPdf(quoPrint_id, vamoosData.quoPrint.Quotations_id, sequelize);
+        servicesDocument = await uploadBytes(pdfBytes, 'Hotel and Agent Services.pdf', 'application/pdf', headers);
+      } catch (err) {
+        console.error('[vamoosAPI] failed to generate/upload services PDF', err);
+      }
 
       // basic trial payload, following the Vamoos "Create An Itinerary" guide
       const itinerary_data = {
@@ -319,8 +450,10 @@ module.exports = (app,db,sequelize) => {
             name: "Taj Mahal"
           },
         locations: req.body.locations || hotelLocations,
+        ...(servicesDocument ? { documents: { all: [{ name: 'Documents', children: [servicesDocument] }] } } : {}),
         details: req.body.details || await (async () => {
           const serviceSummaryByDayNo = buildServiceSummaryByDayNo(vamoosData.servicesByDay);
+          const hotelContactByDayNo = buildHotelContactByDayNo(vamoosData.servicesByDay);
 
           // number each day by its occurrence within its city (1st Delhi day = 1, 2nd = 2, ...)
           const occurrencesByCity = {};
@@ -340,7 +473,10 @@ module.exports = (app,db,sequelize) => {
 
             hotelCardsByDayNo[row.DayNo] = {
               headline: row.Hotel,
-              content: [row.address, row.Contact].filter(Boolean).join(' — '),
+              content: [row.address, row.Contact, hotelContactByDayNo[row.DayNo]]
+                .filter(Boolean)
+                .map((line) => `<p>${line}</p>`)
+                .join(''),
               content_type: 'text/html',
               meta: { day_number: row.DayNo },
               location_internal_id: internalIdByDayNo[row.DayNo],
@@ -382,7 +518,7 @@ module.exports = (app,db,sequelize) => {
           // fallback: the operator's own local city photo library (city_<cities_id>_large_<srno>.jpg),
           // only fetched for the days neither library nor Imsert had anything for
           const localImages = await Promise.all(withImsertImages.map((day) =>
-            day.image ? null : findLocalImage(vamoosData.imageBaseUrl, day.cities_id, day.srno, headers)
+            day.image ? null : findLocalImage(vamoosData.imageBaseUrl, day.cities_id, day.srno, headers, libraryImages, usedImageIds)
           ));
 
           const narrativeCards = withImsertImages.map((day, i) => {
