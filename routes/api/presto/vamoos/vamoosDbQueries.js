@@ -57,6 +57,55 @@ module.exports = (sequelize) => {
     return rows;
   }
 
+  async function getTourCards(quotations_id) {
+    const [rows] = await sequelize.query(
+      "EXEC p_Rpt_QuoTourCardFormat " + Number(quotations_id) + ", 1",{});
+
+    return rows;
+  }
+
+  async function getCardServiceDescRows(quoLines_id) {
+    const [rows] = await sequelize.query(
+      "SELECT * FROM dbo.[f_GetCardServiceDescRows](" + Number(quoLines_id) + ")",{});
+
+    return rows;
+  }
+
+  async function getHotelDescription(hotelAddressbook_id) {
+    const [rows] = await sequelize.query(
+      "SELECT a.Organisation, h.[description] " +
+        "FROM addressbook a " +
+        "LEFT JOIN hotels h ON a.addressbook_id = h.addressbook_id " +
+        "WHERE a.addressbook_id = " + Number(hotelAddressbook_id),{});
+
+    return rows[0];
+  }
+
+  async function getCityDescription(cities_id) {
+    const [rows] = await sequelize.query(
+      "SELECT c.City, c.writeup " +
+        "FROM cities c " +
+        "WHERE cities_id = " + Number(cities_id),{});
+
+    return rows[0];
+  }
+
+  // p_Rpt_QuoTourCardFormat only keeps Cities_id on the first row where a city occurs (it nulls
+  // out repeats - see the SP's own "if city repeated" comment), so it can't be used to count how
+  // many days are spent in each city. Joining QuoLines -> Cities directly bypasses that dedup and
+  // gives the real (undeduped) city for every row.
+  async function getCitiesByQuoLinesIds(quoLinesIds) {
+    if (!quoLinesIds.length) return [];
+
+    const [rows] = await sequelize.query(
+      "SELECT ql.QuoLines_id, c.City " +
+        "FROM QuoLines ql " +
+        "LEFT JOIN Cities c ON ql.Cities_id = c.cities_id " +
+        "WHERE ql.QuoLines_id IN (" + quoLinesIds.map(Number).join(',') + ")",{});
+
+    return rows;
+  }
+
   /*=== gathers all the fields needed for a Vamoos itinerary from the various Presto tables ===*/
   async function getVamoosItineraryData(quoPrint_id) {
     const quoPrint = await getQuoPrintData(quoPrint_id);
@@ -64,13 +113,15 @@ module.exports = (sequelize) => {
     const imageBaseUrl = await getImageBaseUrl();
     const hotelsByDay = await getHotelsByDay(quoPrint.Quotations_id);
     const servicesByDay = await getServicesByDay(quoPrint.Quotations_id);
+    const tourCards = await getTourCards(quoPrint.Quotations_id);
 
     return {
       quoPrint,
       quoPrintDays,
       imageBaseUrl,
       hotelsByDay,
-      servicesByDay
+      servicesByDay,
+      tourCards
     };
   }
 
@@ -80,6 +131,11 @@ module.exports = (sequelize) => {
     getImageBaseUrl,
     getHotelsByDay,
     getServicesByDay,
+    getTourCards,
+    getCardServiceDescRows,
+    getHotelDescription,
+    getCityDescription,
+    getCitiesByQuoLinesIds,
     getVamoosItineraryData
   };
 

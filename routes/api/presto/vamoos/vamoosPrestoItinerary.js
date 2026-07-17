@@ -134,6 +134,35 @@ function findLibraryImage(libraryImages, term, usedImageIds) {
   return { file_id: match.file.id, name: match.name };
 }
 
+// Finds up to `count` embeddable photo URLs for a hotel carousel (Library first, then Imsert AI
+// search to fill any remainder), sharing the same usedImageIds set as every other image lookup so
+// a photo already claimed elsewhere (a card cover, a different hotel's carousel, ...) isn't reused
+// here too. Unlike findLibraryImage/findImsertImages - which return Vamoos file_id_upload_object/
+// file_url shapes for Vamoos' own image/background fields - this returns plain HTTPS URLs, since
+// these go into an <img src> inside a document we're building ourselves, not a Vamoos image slot.
+async function findHotelCarouselImages(term, count, libraryImages, imsertApiKey, usedImageIds) {
+  if (!term) return [];
+
+  const normalizedTerm = normalizeForMatch(term);
+  const urls = [];
+
+  for (const item of libraryImages) {
+    if (urls.length >= count) break;
+    const key = `library:${item.file.id}`;
+    if (usedImageIds.has(key) || !normalizeForMatch(item.name).includes(normalizedTerm)) continue;
+
+    usedImageIds.add(key);
+    urls.push(item.file.https_url);
+  }
+
+  if (urls.length < count) {
+    const imsertMatches = await findImsertImages(term, count - urls.length, imsertApiKey, usedImageIds);
+    urls.push(...imsertMatches.map((match) => match.file_url));
+  }
+
+  return urls;
+}
+
 // Downloads a file from a URL our own backend can reach (e.g. the operator's local image
 // library over the LAN) and re-uploads it to Vamoos' own S3 storage via its presigned-upload
 // flow, since Vamoos' cloud servers can't reach a private LAN address themselves. Reuses an
@@ -200,6 +229,265 @@ async function uploadBytes(bytes, filename, content_type, headers) {
   await axios.put(upload.url, bytes, { headers: { 'Content-Type': content_type } });
 
   return { file_url: upload.s3url, name: filename };
+}
+
+// Vamoos Document Editor's own HTML boilerplate (CSS reset/typography/table styles), reused
+// verbatim so documents built here render identically to one authored by hand in the editor -
+// scraped from a manually-built "Services" document on itinerary 9312's Card 1. Pass
+// { dark: true } (used for both "Services" and "Stay" now) to flip to a black page with
+// off-white text instead - html/body's background are both set (not just body) so there's no
+// mismatched white edge/border showing around the black content on devices that paint the html
+// root before body's own background applies. The .activity-table stripe colors (see below) get a
+// dark-appropriate pair of hues rather than being neutralized, since Services still wants its
+// stacked tables to read apart at a glance - Stay's own wrapper table isn't in that class, so it
+// never picks these up either way.
+function wrapDocumentHtml(title, bodyHtml, { dark = false } = {}) {
+  const darkOverrides = dark ? `
+html, body { background: #000000; }
+p { color: #f2f2f2; }
+a { color: #6db3ff; }
+table { border-color: #333333; }
+.prose > table.activity-table:nth-of-type(odd) { background: #12202f; border-color: #2c4a6e; }
+.prose > table.activity-table:nth-of-type(odd) th { background: #1c3350; }
+.prose > table.activity-table:nth-of-type(even) { background: #2a2013; border-color: #5a4526; }
+.prose > table.activity-table:nth-of-type(even) th { background: #3d2f1a; }
+/* header label ("Arrival Transfer", "Hotel", ...) bright, everything else in the box dimmer, so
+   each activity reads as a distinct card with a clear heading rather than one undifferentiated
+   list - and the row dividers drop to near-invisible instead of the light-mode #eee, which read
+   as harsh bright lines against these dark backgrounds and made adjacent boxes blur together. */
+.activity-table th p { color: #ffffff; }
+.activity-table td p { color: #a9b7c4; }
+.activity-table th, .activity-table td { border-bottom-color: rgba(255, 255, 255, 0.08); }
+` : '';
+
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="Vamoos Document Editor" />
+    <title>${title}</title>
+    <style>
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+table { border-collapse: collapse; width: 100%; }
+img { display: block; max-width: 100%; height: auto; }
+body {
+  margin: 0;
+  padding: 15px 10px;
+  font-family: "Lato","Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222;
+}
+main { max-width: 800px; margin: 0 auto; padding-bottom: 1rem; }
+p { margin: 0 0 1rem 0; color: #333; }
+strong { font-weight: 600; }
+a { color: #0066cc; text-decoration: none; }
+table { margin: 1.5rem 0; border: 1px solid #eaeaea; border-radius: 10px; overflow: hidden; }
+th, td { border-bottom: 1px solid #eee; padding: 0.75rem 1rem; text-align: left; }
+th { font-weight: 600; }
+.prose > :first-child { margin-top: 0; }
+/* alternate each stacked Services activity table's background so multiple tables in one document
+   are easy to tell apart at a glance - two distinct pastel hues (cool blue / warm sand) read much
+   faster than two shades of the same gray would, while staying light enough that body text
+   (#222/#333) stays well above WCAG AA's 4.5:1 contrast minimum. Scoped to .activity-table (not
+   just "table") so Stay's own single wrapper table - a different document, but built from this
+   same shared boilerplate - never picks this up too. */
+.prose > table.activity-table:nth-of-type(odd) { background: #e8f0fb; border-color: #8fb8e6; }
+.prose > table.activity-table:nth-of-type(odd) th { background: #c7ddf5; }
+.prose > table.activity-table:nth-of-type(even) { background: #fdf3e7; border-color: #e0b877; }
+.prose > table.activity-table:nth-of-type(even) th { background: #f5dfc0; }
+/* ~10% shorter rows than the shared th/td default (0.75rem/1rem) - scoped to .activity-table so
+   Stay's own single content cell keeps its original, already-approved padding. vertical-align
+   plus zeroing the cell <p>'s own margin (normally 1rem bottom, 0 top - fine for stacked
+   paragraphs like Stay's, but lopsided for a single line of text in a row) fixes the text sitting
+   high with extra space below it; row height now comes from the cell's own (symmetric) padding
+   instead. */
+.activity-table th, .activity-table td { padding: 0.68rem 0.9rem; vertical-align: middle; }
+.activity-table th p, .activity-table td p { margin: 0; }
+.check-mark { color: #22c55e; font-weight: 700; font-size: 1.15em; }
+/* Swipeable carousel (no JS) for a hotel's photos - a plain horizontal scroll-snap strip, but
+   with the scrollbar itself hidden (it was the visible "slider" track that looked out of place,
+   not the swipe gesture). A fixed height + object-fit (not aspect-ratio, a newer property some
+   embedded webviews may not support) keeps every photo the same card size regardless of its own
+   orientation/resolution. */
+.carousel { display: flex; gap: 0.75rem; margin: 1.5rem 0; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+.carousel::-webkit-scrollbar { display: none; }
+.carousel img { flex: 0 0 82%; max-width: 82%; height: 200px; scroll-snap-align: start; margin: 0; border-radius: 8px; object-fit: cover; }
+.carousel-single { height: 200px; object-fit: cover; border-radius: 8px; }
+${darkOverrides}
+    </style>
+  </head>
+  <body style="background-color: ${dark ? '#000000' : 'rgb(255, 255, 255)'};">
+    <main class="container">
+      <article class="prose">
+        ${bodyHtml}
+      </article>
+    </main>
+  </body>
+</html>`;
+}
+
+// Builds a clickable tel: link from a Phone field that may list multiple numbers comma-separated
+// (e.g. "0484 266 9933, 266 8594") - a tel: URI can only target one number, so it dials the first
+// one listed, stripped down to digits/+, while still showing the full raw text so nothing the
+// reader might need (the other numbers) is hidden. Anchor attributes match the manually-built
+// phone links studied on itinerary odyssey123's hotel document.
+function buildPhoneLink(phone) {
+  const digits = phone.split(',')[0].replace(/[^\d+]/g, '');
+  return digits
+    ? `<a target="_blank" rel="noopener noreferrer nofollow" href="tel:${digits}">${phone}</a>`
+    : phone;
+}
+
+// Builds a hotel's photo carousel: a single cropped photo if only one turned up, a swipeable
+// (scroll-snap, scrollbar hidden) strip if two did, or nothing if the search found no photos at
+// all. Caps at 2 since that's all findHotelCarouselImages is ever asked to find.
+function buildCarouselHtml(imageUrls) {
+  if (!imageUrls.length) return '';
+
+  if (imageUrls.length === 1) {
+    return `<p></p><img class="carousel-single" src="${imageUrls[0]}">`;
+  }
+
+  return `<p></p><div class="carousel">${imageUrls.map((url) => `<img src="${url}">`).join('')}</div>`;
+}
+
+// Builds one <table> (blank/Description header) from a f_GetCardServiceDescRows(QuoLines_id)
+// result set, matching the shape of the manually-built "Services" documents, plus a trailing
+// Contact/Phone row (click-to-dial) when the activity has a phone number - omitted entirely if
+// blank/null, per that day's own Phone column from p_Rpt_QuoTourCardFormat.
+// f_GetCardServiceDescRows represents a yes/no field (e.g. "Guide") as a literal ServiceDesc of
+// "1" rather than an actual word - shown as a green checkmark instead of a bare digit, which
+// reads as a typo/leftover data rather than a deliberate yes.
+function formatServiceDescValue(value) {
+  return (value || '').trim() === '1' ? '<span class="check-mark">&#10003;</span>' : value;
+}
+
+function buildServiceDescTable(rows, descriptionLabel, phone) {
+  const body = rows
+    .map((row) => `<tr><td><p>${row.Timings}</p></td><td><p>${formatServiceDescValue(row.ServiceDesc)}</p></td></tr>`)
+    .join('');
+
+  const contactRow = (phone && phone.trim())
+    ? `<tr><td><p>Contact</p></td><td><p>${buildPhoneLink(phone)}</p></td></tr>`
+    : '';
+
+  return `<table class="activity-table"><thead><tr><th><p></p></th><th><p>${descriptionLabel}</p></th></tr></thead><tbody>${body}${contactRow}</tbody></table>`;
+}
+
+// Per QuoLines.TrsType (see FitMargins for the canonical type -> description mapping this
+// mirrors: 1 Tickets, 2 Accommodation, 3 Sight Seeing, 4 Transfer, 5 Transport), picks the
+// activity table's second header label. TrsType 4 (Transfer) further splits into Arrival/Departure
+// based on the row's own ServiceDesc, since both directions share the same TrsType.
+function getServiceDescLabel(trsType, serviceDesc) {
+  switch (trsType) {
+    case 1: return 'Travel';
+    case 2: return 'Hotel';
+    case 3: return 'Sightseeing';
+    case 4: return /departure/i.test(serviceDesc || '') ? 'Departure Transfer' : 'Arrival Transfer';
+    case 5: return 'Drive';
+    default: return 'Description';
+  }
+}
+
+// Builds a card's "Services" document: one table per activity that day (per QuoLines_id), stacked
+// one below the other in the same chronological (AtTime) order the rows already come in from
+// p_Rpt_QuoTourCardFormat. Returns null if the day has no QuoLines_id rows to pull from (e.g. a
+// "Day At Leisure" filler day).
+async function buildServicesDocument(dayRows, getCardServiceDescRows, headers) {
+  const activityRows = dayRows.filter((row) => row.QuoLines_id);
+  if (!activityRows.length) return null;
+
+  const tables = await Promise.all(activityRows.map(async (row) => {
+    const descRows = await getCardServiceDescRows(row.QuoLines_id);
+    return buildServiceDescTable(descRows, getServiceDescLabel(row.TrsType, row.ServiceDesc), row.Phone);
+  }));
+
+  const html = wrapDocumentHtml('Services', tables.join(''), { dark: true });
+  const uploaded = await uploadBytes(Buffer.from(html), 'Services.html', 'text/html', headers);
+
+  // uploadBytes reuses the upload filename as the document's display name by default, but that
+  // shows the ".html" extension as part of the icon caption in the app - override it to match
+  // how the manually-built "Services" document names itself (file.short_name keeps the
+  // extension, just not the document's own display name)
+  return { ...uploaded, name: 'Services' };
+}
+
+// Builds a card's "Stay" document from the hotel's own description (addressbook/hotels tables),
+// for whichever day has a HotelAddressbook_id - matching the single-column table shape of a
+// manually-built hotel document (studied against itinerary odyssey123's Day 1 "Haveli Hauz Khas
+// Delhi" document), named "Stay" rather than the hotel's own name (the hotel's own name is still
+// shown, bold/underlined, as the first line of the body). The Contact/Phone line reuses the same
+// day row's Phone column (same source as the Services document's Contact row) rather than a
+// separate hotel-specific number, formatted with the anchor attributes odyssey123's phone links
+// use. Below that, up to 2 photos found via the hotel's own ImageHint (e.g. "Kochi The Tower
+// House"), in a swipeable carousel - omitted entirely if the search comes up empty. Returns null
+// if the day has no hotel, or the hotel has no description on file.
+async function buildStayDocument(dayRows, getHotelDescription, headers, libraryImages, imsertApiKey, usedImageIds) {
+  const hotelRow = dayRows.find((row) => row.HotelAddressbook_id);
+  if (!hotelRow) return null;
+
+  const hotel = await getHotelDescription(hotelRow.HotelAddressbook_id);
+  if (!hotel || !hotel.description) return null;
+
+  const contactParagraph = (hotelRow.Phone && hotelRow.Phone.trim())
+    ? `<p></p><p><strong>Contact:</strong> ${buildPhoneLink(hotelRow.Phone)}</p>`
+    : '';
+
+  const imageUrls = await findHotelCarouselImages(hotelRow.ImageHint, 2, libraryImages, imsertApiKey, usedImageIds);
+  const imagesHtml = buildCarouselHtml(imageUrls);
+
+  const body = `<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup>` +
+    `<tbody><tr><td colspan="1" rowspan="1">` +
+    `<p><strong><u>${hotel.Organisation}</u></strong></p>` +
+    `<p>${hotel.description}</p>` +
+    `${contactParagraph}` +
+    `${imagesHtml}` +
+    `</td></tr></tbody></table>`;
+
+  const html = wrapDocumentHtml('Stay', body, { dark: true });
+  const uploaded = await uploadBytes(Buffer.from(html), 'Stay.html', 'text/html', headers);
+
+  // icon_id 288 is the hotel/accommodation icon the manually-built document used - untested
+  // whether Vamoos actually honors an icon_id passed at creation time the way it echoes one
+  // back on read, so worth confirming against the real icon once this runs live
+  return { ...uploaded, name: 'Stay', icon_id: 288 };
+}
+
+// Builds a card's "City" document - identical in structure to buildStayDocument above, just
+// sourced from cities/writeup instead of addressbook/hotels, keyed off Cities_id instead of
+// HotelAddressbook_id, and searching for 3 photos instead of 2. icon_id 284 is the city/location
+// icon (studied against itinerary odyssey123's "Delhi" document, same day as its "Haveli Hauz
+// Khas Delhi" hotel document). Returns null if the day has no city, or the city has no writeup
+// on file.
+async function buildCityDocument(dayRows, getCityDescription, headers, libraryImages, imsertApiKey, usedImageIds) {
+  const cityRow = dayRows.find((row) => row.Cities_id);
+  if (!cityRow) return null;
+
+  const city = await getCityDescription(cityRow.Cities_id);
+  if (!city || !city.writeup) return null;
+
+  const contactParagraph = (cityRow.Phone && cityRow.Phone.trim())
+    ? `<p></p><p><strong>Contact:</strong> ${buildPhoneLink(cityRow.Phone)}</p>`
+    : '';
+
+  const imageUrls = await findHotelCarouselImages(cityRow.ImageHint, 3, libraryImages, imsertApiKey, usedImageIds);
+  const imagesHtml = buildCarouselHtml(imageUrls);
+
+  const body = `<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup>` +
+    `<tbody><tr><td colspan="1" rowspan="1">` +
+    `<p><strong><u>${city.City}</u></strong></p>` +
+    `<p>${city.writeup}</p>` +
+    `${contactParagraph}` +
+    `${imagesHtml}` +
+    `</td></tr></tbody></table>`;
+
+  const html = wrapDocumentHtml('City', body, { dark: true });
+  const uploaded = await uploadBytes(Buffer.from(html), 'City.html', 'text/html', headers);
+
+  return { ...uploaded, name: 'City', icon_id: 284 };
 }
 
 // Checks whether the operator's own local city photo library has a numbered shot for this
@@ -358,6 +646,42 @@ function buildServiceSummaryByDayNo(servicesByDay) {
   return summaryByDayNo;
 }
 
+// Finds the city the tour spends the most NIGHTS in (for the itinerary's cover photo), from the
+// same p_Rpt_QuoTourCardFormat rows the cards are built from. p_Rpt_QuoTourCardFormat only keeps
+// Cities_id on a city's first occurrence (it nulls out repeats), so it can't be used to count
+// nights directly - cityByQuoLinesId (an undeduped QuoLines -> Cities lookup) is used instead.
+//
+// A day's night is spent in whichever city that day is attributed to - including a transfer day,
+// since the SP attributes the whole day to the destination and the traveler slept in the origin
+// city the night before (already counted against the origin's own day there) - except the tour's
+// very last day, which is a same-day departure with no night following it. Ties go to whichever
+// city's first day comes earliest in the tour.
+function findCityWithMostNights(tourCards, cityByQuoLinesId) {
+  const rowsByCardNo = {};
+  tourCards.forEach((row) => {
+    (rowsByCardNo[row.CardNo] = rowsByCardNo[row.CardNo] || []).push(row);
+  });
+
+  const cardNos = Object.keys(rowsByCardNo).map(Number);
+  const lastCardNo = Math.max(...cardNos);
+
+  const nightsByCity = {};
+  const firstCardNoByCity = {};
+
+  cardNos.forEach((cardNo) => {
+    const cityRow = rowsByCardNo[cardNo].find((row) => row.QuoLines_id && cityByQuoLinesId[row.QuoLines_id]);
+    if (!cityRow) return;
+
+    const city = cityByQuoLinesId[cityRow.QuoLines_id];
+    firstCardNoByCity[city] = Math.min(firstCardNoByCity[city] ?? Infinity, cardNo);
+    nightsByCity[city] = (nightsByCity[city] || 0) + (cardNo === lastCardNo ? 0 : 1);
+  });
+
+  return Object.keys(nightsByCity).sort((a, b) =>
+    nightsByCity[b] - nightsByCity[a] || firstCardNoByCity[a] - firstCardNoByCity[b]
+  )[0] || null;
+}
+
 // Vamoos reference_codes (passcodes) stay reserved even once deactivated, so a plain
 // create fails with "passcode already taken" on a rerun. Look up any existing itinerary
 // (including deactivated ones) and reuse its vamoos_id so the create becomes an in-place update.
@@ -419,10 +743,18 @@ module.exports = (app,db,sequelize) => {
       // the same underlying photo never gets claimed by more than one card
       const usedImageIds = new Set();
 
-      // the cover photo is always the Taj Mahal, for every itinerary regardless of destination -
-      // sourced through Library/Imsert (properly re-hosted with sharp variants) rather than the
-      // static Wikipedia fallback, which is only used if neither source has a match
-      const backgroundImages = await findImsertImages('Taj Mahal', 3, imsertApiKey, usedImageIds);
+      // the cover photo is the city the tour spends the most nights in (ties go to whichever of
+      // those cities is visited first), sourced from the same undeduped QuoLines -> Cities join
+      // used to count nights per city. Claiming its photo(s) here, before any per-card/document
+      // image lookup runs, means the shared usedImageIds set already keeps that same photo from
+      // being reused in the day-to-day cards or a City document's carousel further down.
+      const quoLinesIds = vamoosData.tourCards.filter((row) => row.QuoLines_id).map((row) => row.QuoLines_id);
+      const cityRows = await dbQueries.getCitiesByQuoLinesIds(quoLinesIds);
+      const cityByQuoLinesId = {};
+      cityRows.forEach((row) => { if (row.City) cityByQuoLinesId[row.QuoLines_id] = row.City; });
+
+      const coverCity = findCityWithMostNights(vamoosData.tourCards, cityByQuoLinesId);
+      const backgroundImages = coverCity ? await findImsertImages(coverCity, 3, imsertApiKey, usedImageIds) : [];
 
       // attach the same "Hotel/Agent services" PDF the /reports/presto/tourHotelsAgents route
       // produces, as a Document on the itinerary - best-effort, so a PDF failure doesn't block
@@ -443,105 +775,73 @@ module.exports = (app,db,sequelize) => {
         field3: vamoosData.quoPrint.PaxInfo || '--',
         client_reference: vamoosData.quoPrint.Reference || '',
         background: req.body.background
-          || findLibraryImage(libraryImages, 'Taj Mahal', usedImageIds)
-          || backgroundImages[0]
-          || {
-            file_url: 'https://upload.wikimedia.org/wikipedia/commons/f/f3/Taj_Mahal%2C_Agra.jpg',
-            name: "Taj Mahal"
-          },
+          || (coverCity && findLibraryImage(libraryImages, coverCity, usedImageIds))
+          || backgroundImages[0],
         locations: req.body.locations || hotelLocations,
         ...(servicesDocument ? { documents: { all: [{ name: 'Documents', children: [servicesDocument] }] } } : {}),
         details: req.body.details || await (async () => {
-          const serviceSummaryByDayNo = buildServiceSummaryByDayNo(vamoosData.servicesByDay);
-          const hotelContactByDayNo = buildHotelContactByDayNo(vamoosData.servicesByDay);
-
-          // number each day by its occurrence within its city (1st Delhi day = 1, 2nd = 2, ...)
-          const occurrencesByCity = {};
-          const daysWithSrno = vamoosData.quoPrintDays.map((day) => {
-            const srno = (occurrencesByCity[day.city] || 0) + 1;
-            occurrencesByCity[day.city] = srno;
-            return { ...day, srno };
+          // one card per day, per EXEC p_Rpt_QuoTourCardFormat (which itself wraps
+          // p_Rpt_QuoTourHotelAgentList and fills any gap days with "Day(s) At Leisure" rows) -
+          // grouped by CardNo since a day can have multiple SubCardNo rows (e.g. a drive followed
+          // by a hotel stay), of which only the first (by SubCardNo) is used for the card itself
+          const rowsByCardNo = {};
+          vamoosData.tourCards.forEach((row) => {
+            (rowsByCardNo[row.CardNo] = rowsByCardNo[row.CardNo] || []).push(row);
           });
 
-          // hotel cards claim their image first - a hotel-name match is more precise than a
-          // generic city match, so it shouldn't lose out to a same-named city card
-          const hotelCardsByDayNo = {};
-          await Promise.all(vamoosData.hotelsByDay.map(async (row) => {
-            const image = findLibraryImage(libraryImages, row.Hotel, usedImageIds)
-              || (await findImsertImages(row.Hotel, 1, imsertApiKey, usedImageIds))[0]
-              || null;
+          const cardNosInOrder = Object.keys(rowsByCardNo).map(Number).sort((a, b) => a - b);
 
-            hotelCardsByDayNo[row.DayNo] = {
-              headline: row.Hotel,
-              content: [row.address, row.Contact, hotelContactByDayNo[row.DayNo]]
-                .filter(Boolean)
-                .map((line) => `<p>${line}</p>`)
-                .join(''),
-              content_type: 'text/html',
-              meta: { day_number: row.DayNo },
-              location_internal_id: internalIdByDayNo[row.DayNo],
-              ...(image ? { image } : {})
-            };
-          }));
+          return Promise.all(cardNosInOrder.map(async (cardNo) => {
+            const rows = rowsByCardNo[cardNo].sort((a, b) => a.SubCardNo - b.SubCardNo);
+            const firstRow = rows[0];
 
-          // first choice for narrative/city cards: an already-uploaded library photo not
-          // already claimed by a hotel card or an earlier occurrence of the same city
-          const daysWithLibraryImage = daysWithSrno.map((day) => ({
-            ...day,
-            libraryImage: findLibraryImage(libraryImages, day.city, usedImageIds)
-          }));
+            const image = firstRow.ImageHint
+              ? findLibraryImage(libraryImages, firstRow.ImageHint, usedImageIds)
+                || (await findImsertImages(firstRow.ImageHint, 1, imsertApiKey, usedImageIds))[0]
+                || null
+              : null;
 
-          // next choice: Imsert's AI search - only for days without a library match, fetching
-          // enough per unique city up front so repeats cycle through different shots
-          const occurrencesNeedingImsert = {};
-          daysWithLibraryImage.forEach((day) => {
-            if (!day.libraryImage) {
-              occurrencesNeedingImsert[day.city] = (occurrencesNeedingImsert[day.city] || 0) + 1;
+            // Additional Information: every row for the day (AtTime bold, ServiceDesc as-is,
+            // no regex trimming) - each its own <p> block with real spaces, not &nbsp;, since the
+            // app's content renderer isn't a full HTML parser (see buildServiceSummaryByDayNo above)
+            const content = rows
+              .map((row) => `<p><strong>${row.AtTime}</strong>   ${row.ServiceDesc}</p>`)
+              .join('');
+
+            // per-card "Services", "Stay" and "City" documents - best-effort, so a lookup
+            // failure on one day doesn't block the rest of the itinerary
+            let servicesDoc = null;
+            try {
+              servicesDoc = await buildServicesDocument(rows, dbQueries.getCardServiceDescRows, headers);
+            } catch (err) {
+              console.error(`[vamoosAPI] failed to build services document for CardNo ${cardNo}`, err);
             }
-          });
 
-          const imsertImagesByCity = {};
-          await Promise.all(Object.keys(occurrencesNeedingImsert).map(async (city) => {
-            imsertImagesByCity[city] = await findImsertImages(city, occurrencesNeedingImsert[city], imsertApiKey, usedImageIds);
-          }));
+            let stayDoc = null;
+            try {
+              stayDoc = await buildStayDocument(rows, dbQueries.getHotelDescription, headers, libraryImages, imsertApiKey, usedImageIds);
+            } catch (err) {
+              console.error(`[vamoosAPI] failed to build stay document for CardNo ${cardNo}`, err);
+            }
 
-          const imsertUsedByCity = {};
-          const withImsertImages = daysWithLibraryImage.map((day) => {
-            if (day.libraryImage) return { ...day, image: day.libraryImage };
+            let cityDoc = null;
+            try {
+              cityDoc = await buildCityDocument(rows, dbQueries.getCityDescription, headers, libraryImages, imsertApiKey, usedImageIds);
+            } catch (err) {
+              console.error(`[vamoosAPI] failed to build city document for CardNo ${cardNo}`, err);
+            }
 
-            const images = imsertImagesByCity[day.city] || [];
-            const index = imsertUsedByCity[day.city] || 0;
-            imsertUsedByCity[day.city] = index + 1;
-            return { ...day, image: images[index] || null };
-          });
-
-          // fallback: the operator's own local city photo library (city_<cities_id>_large_<srno>.jpg),
-          // only fetched for the days neither library nor Imsert had anything for
-          const localImages = await Promise.all(withImsertImages.map((day) =>
-            day.image ? null : findLocalImage(vamoosData.imageBaseUrl, day.cities_id, day.srno, headers, libraryImages, usedImageIds)
-          ));
-
-          const narrativeCards = withImsertImages.map((day, i) => {
-            const image = day.image || localImages[i];
+            const documents = [servicesDoc, stayDoc, cityDoc].filter(Boolean);
 
             return {
-              headline: day.city,
-              content: serviceSummaryByDayNo[day.SrNo] || day.DaySummaryInfo,
+              headline: firstRow.Title,
+              content,
               content_type: 'text/html',
-              meta: { day_number: day.SrNo },
+              meta: { day_number: cardNo },
               ...(image ? { image } : {}),
-              ...(internalIdByDayNo[day.SrNo] ? { location_internal_id: internalIdByDayNo[day.SrNo] } : {})
+              ...(documents.length ? { documents } : {})
             };
-          });
-
-          const allCards = [];
-          narrativeCards.forEach((card, i) => {
-            allCards.push(card);
-            const hotelCard = hotelCardsByDayNo[withImsertImages[i].SrNo];
-            if (hotelCard) allCards.push(hotelCard);
-          });
-
-          return allCards;
+          }));
         })(),
         ...(vamoos_id ? { vamoos_id, is_active: true } : {})
       };
