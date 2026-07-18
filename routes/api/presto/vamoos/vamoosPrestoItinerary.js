@@ -1,20 +1,42 @@
 const axios = require('axios');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
+const Anthropic = require('@anthropic-ai/sdk');
 const keys = require('../../../../config/keys');
 const vamoosDbQueries = require('./vamoosDbQueries');
 const { getTourHotelsAgents } = require('../../../reports/presto/prestoTourHotelsAgents');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Only set up when a key is actually configured - lets rewriteDaySummaryWithLLM (below) fall back
+// to its rule-based input silently rather than every request needing an API key to work at all.
+const anthropicClient = keys.anthropicApiKey ? new Anthropic({ apiKey: keys.anthropicApiKey }) : null;
+
+// Stamped into meta.source on every document this integration creates (confirmed via a live
+// test that Vamoos persists arbitrary custom meta keys unchanged, alongside its own "sequence").
+// Lets a rerun tell "ours, safe to regenerate" apart from anything attached manually in the
+// portal (e.g. an actual ticket), instead of guessing from the document's name.
+const SYNC_SOURCE = 'presto-sync';
+
 // Vamoos expects dates as YYYY-MM-DD; SQL Server DATETIME columns come back either as a
 // JS Date object or as a "YYYY-MM-DD HH:mm:ss" string depending on the driver, so handle both.
+// Date objects are formatted explicitly in Asia/Calcutta (IST) rather than via .toISOString()
+// (UTC) - these are date-only Presto values (SMALLDATETIME truncated to 00:00), so both happen to
+// land on the same calendar day today, but formatting in the tour's actual timezone is correct
+// regardless of that coincidence rather than relying on it.
 function toDateOnly(value) {
   if (!value) return undefined;
   if (value instanceof Date) {
-    return value.toISOString().slice(0, 10);
+    return new Intl.DateTimeFormat('en-CA',
+      { timeZone: 'Asia/Calcutta', year: 'numeric', month: '2-digit', day: '2-digit' }).format(value);
   }
   return String(value).slice(0, 10);
+}
+
+// Pulls just the year out of a date value, via the same timezone-safe toDateOnly conversion above.
+function yearOf(value) {
+  const dateOnly = toDateOnly(value);
+  return dateOnly ? Number(dateOnly.slice(0, 4)) : null;
 }
 
 async function waitForJob(jobId, headers) {
@@ -412,7 +434,7 @@ async function buildServicesDocument(dayRows, getCardServiceDescRows, headers) {
   // shows the ".html" extension as part of the icon caption in the app - override it to match
   // how the manually-built "Services" document names itself (file.short_name keeps the
   // extension, just not the document's own display name)
-  return { ...uploaded, name: 'Services' };
+  return { ...uploaded, name: 'Services', meta: { source: SYNC_SOURCE } };
 }
 
 // Builds a card's "Stay" document from the hotel's own description (addressbook/hotels tables),
@@ -453,7 +475,7 @@ async function buildStayDocument(dayRows, getHotelDescription, headers, libraryI
   // icon_id 288 is the hotel/accommodation icon the manually-built document used - untested
   // whether Vamoos actually honors an icon_id passed at creation time the way it echoes one
   // back on read, so worth confirming against the real icon once this runs live
-  return { ...uploaded, name: 'Stay', icon_id: 288 };
+  return { ...uploaded, name: 'Stay', icon_id: 288, meta: { source: SYNC_SOURCE } };
 }
 
 // Builds a card's "City" document - identical in structure to buildStayDocument above, just
@@ -487,7 +509,7 @@ async function buildCityDocument(dayRows, getCityDescription, headers, libraryIm
   const html = wrapDocumentHtml('City', body, { dark: true });
   const uploaded = await uploadBytes(Buffer.from(html), 'City.html', 'text/html', headers);
 
-  return { ...uploaded, name: 'City', icon_id: 284 };
+  return { ...uploaded, name: 'City', icon_id: 284, meta: { source: SYNC_SOURCE } };
 }
 
 // Checks whether the operator's own local city photo library has a numbered shot for this
@@ -646,6 +668,264 @@ function buildServiceSummaryByDayNo(servicesByDay) {
   return summaryByDayNo;
 }
 
+// Parenthetical distance/duration Presto sometimes appends to a Drive row's own description (e.g.
+// "Drive to Thekkady (161kms, 05:00hrs)") - stripped from the day summary below since it reads as
+// trip logistics rather than the "fun" descriptive content the summary is for. The full text
+// (distance/duration included) still shows in the per-row Additional Information list right below
+// the summary, so nothing is actually lost.
+const DISTANCE_DURATION_PATTERN = /\s*\(\s*\d+\s*kms?\.?,?\s*\d{1,2}:\d{2}\s*h(?:rs?)?\.?\s*\)/gi;
+
+function stripDistanceDuration(text) {
+  if (!text) return text;
+  return text
+    .replace(DISTANCE_DURATION_PATTERN, '')
+    .replace(/\s+([.,])/g, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+// Maps a row's own AtTime (HH:MM, per p_Rpt_QuoTourCardFormat's AtTime VARCHAR(5) column) to a
+// casual time-of-day word - used only for Drive rows below, whose own ServiceDesc usually has no
+// time-of-day phrasing of its own (unlike Sightseeing rows, which already read "Morning city tour
+// of..." straight from Presto's own written description, so are left as-is).
+function timeOfDayLabel(atTime) {
+  const match = /^(\d{1,2}):/.exec(atTime || '');
+  if (!match) return null;
+
+  const hour = Number(match[1]);
+  if (hour < 12) return 'Morning';
+  if (hour < 17) return 'Afternoon';
+  return 'Evening';
+}
+
+// Some Drive rows DO already lead with their own time-of-day phrasing (e.g. "Early morning drive
+// to Satna... where you board the ... train to Varanasi") - guards the Drive-row handling below
+// from double-prefixing ("Morning early morning drive to...").
+const STARTS_WITH_TIME_OF_DAY = /^(early|late|full\s+day|rest\s+of\s+the\s+day|morning|afternoon|evening|night)\b/i;
+
+function lowerFirst(text) {
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}
+
+// Real ServiceDesc text isn't always punctuated consistently (some rows end with a period, some
+// don't) - without this, two sentences with no trailing period run straight into each other with
+// no separator when joined below (e.g. "...to Mararikulam 1 Twin and 1 Double...").
+function ensureFullStop(text) {
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+// Builds a short, easy-to-read summary for a card's Additional Information section, from the same
+// ordered activity rows the per-row time list below it is built from. Template-based (no external
+// API) - a placeholder for a future LLM-written version, sharing the same insertion point.
+//
+// Leans on Presto's own written ServiceDesc text throughout rather than synthesizing generic
+// phrases ("your arrival transfer", "some sightseeing") - it's already brochure-quality prose that
+// naturally covers arrival framing on its own (e.g. "You arrive in Delhi by BA 143 from London at
+// 23:35. You are met on arrival ... and transferred to your hotel.") once the pax/date/admin
+// clutter is trimmed off (see buildServiceSummaryByDayNo above for that same trimServiceDesc
+// cleanup). The one place real data gets woven in on top of that: an Accommodation row's hotel
+// name, looked up live via getHotelDescription (the same lookup buildStayDocument already relies
+// on, keyed off HotelAddressbook_id) rendered as "Stay at {name}." Falls back to a generic "Stay
+// at your hotel." (never the raw room-type/booking text, which reads as booking admin rather than
+// a description) only if that lookup comes back empty.
+//
+// A TrsType 1 (Tickets) row can carry p_Rpt_QuoTourCardFormat's own Overnight flag (1/0) - an
+// overnight train/bus/flight slept on rather than a hotel (confirmed: Overnight only ever appears
+// on TrsType 1 rows, never on the TrsType 2 Accommodation row above - the two are mutually
+// exclusive by day, not a gate on each other). Tickets rows tend to be terser/more formal than a
+// narrative Transport row (booking class, ticket numbers), so this is synthesized rather than
+// trusting the raw ServiceDesc, same reasoning as the "Stay at your hotel." accommodation fallback.
+const OVERNIGHT_TRAVEL_SENTENCE = 'Sleep on the overnight train.';
+
+// Returns null only for a day with no real activities at all (e.g. a "Day At Leisure" filler
+// day) - every other day gets a draft, including a single-activity day, since the draft now feeds
+// rewriteDaySummariesWithLLM below rather than being shown verbatim: a lone sightseeing row's own
+// line right below the summary would once have made a same-text draft purely redundant, but the
+// LLM rewrite means the summary can genuinely add something (a line or two of richer color) rather
+// than just repeating it, the same way "Stay at {hotel}." already adds something beyond the raw
+// room/booking line for a lone accommodation day.
+async function buildDaySummarySentence(rows, getHotelDescription) {
+  const activityRows = rows.filter((row) => row.QuoLines_id);
+  if (!activityRows.length) return null;
+
+  async function hotelClause(row) {
+    let hotelName = null;
+    try {
+      const hotel = await getHotelDescription(row.HotelAddressbook_id);
+      hotelName = hotel && hotel.Organisation;
+    } catch (err) {
+      console.error('[vamoosAPI] failed to look up hotel name for day summary', err);
+    }
+    return hotelName ? `Stay at ${hotelName}.` : 'Stay at your hotel.';
+  }
+
+  const isAccommodationStay = (row) => row.TrsType === 2 && row.HotelAddressbook_id;
+  const isOvernightTravel = (row) => row.TrsType === 1 && row.Overnight;
+
+  const sentences = [];
+
+  for (const row of activityRows) {
+    if (row.TrsType === 2) {
+      if (isAccommodationStay(row)) sentences.push(await hotelClause(row));
+      continue;
+    }
+
+    if (isOvernightTravel(row)) {
+      sentences.push(OVERNIGHT_TRAVEL_SENTENCE);
+      continue;
+    }
+
+    if (row.TrsType === 5) {
+      const cleaned = stripDistanceDuration(trimServiceDesc(row.ServiceDesc));
+      if (!cleaned) continue;
+      const period = !STARTS_WITH_TIME_OF_DAY.test(cleaned) && timeOfDayLabel(row.AtTime);
+      sentences.push(ensureFullStop(period ? `${period} ${lowerFirst(cleaned)}` : cleaned));
+      continue;
+    }
+
+    const description = stripDistanceDuration(trimServiceDesc(row.ServiceDesc));
+    if (description) sentences.push(ensureFullStop(description));
+  }
+
+  return sentences.length ? sentences.join(' ') : null;
+}
+
+// Formats one row of the per-card Additional Information time list (below the LLM-written summary
+// - see rewriteDaySummariesWithLLM below). An Accommodation row's raw ServiceDesc is internal
+// booking detail (room type, meal basis) rather than something worth showing verbatim - shown
+// instead as "Stay: {hotel name}" (no AtTime prefix; that's not meaningful for a whole-night stay),
+// via the same getHotelDescription lookup buildStayDocument and buildDaySummarySentence already
+// rely on. Every other TrsType is left exactly as it was (AtTime bold, ServiceDesc as-is).
+async function formatAdditionalInfoRow(row, getHotelDescription) {
+  if (row.TrsType !== 2 || !row.HotelAddressbook_id) {
+    return `<p><strong>${row.AtTime}</strong>   ${row.ServiceDesc}</p>`;
+  }
+
+  let hotelName = null;
+  try {
+    const hotel = await getHotelDescription(row.HotelAddressbook_id);
+    hotelName = hotel && hotel.Organisation;
+  } catch (err) {
+    console.error('[vamoosAPI] failed to look up hotel name for Additional Information row', err);
+  }
+
+  return `<p>Stay: ${hotelName || 'Your Hotel'}</p>`;
+}
+
+// Extracts the [origin, destination] pair from a draft's "from X to Y" clause (the shape
+// buildDaySummarySentence's Drive handling produces), or null if the draft has no such clause -
+// used by preservesTravelOrder below to sanity-check the LLM rewrite didn't reverse it.
+function extractFromToOrder(draft) {
+  const match = /\bfrom\s+([A-Z][\w'-]*(?:\s+[A-Z][\w'-]*)*)\s+to\s+([A-Z][\w'-]*(?:\s+[A-Z][\w'-]*)*)/.exec(draft || '');
+  return match ? [match[1], match[2]] : null;
+}
+
+// Cheap, deterministic guard against a real failure mode observed while testing this feature: the
+// LLM restructuring a "from X to Y" sentence can occasionally reverse it (more likely when a place
+// name repeats across adjacent days, e.g. two consecutive days both mentioning the same
+// stopover) - tightening the prompt alone didn't reliably prevent this, it just moved which day it
+// happened to. True (safe to use the rewrite) when the draft has no from/to clause to check, or
+// when the rewrite still mentions the origin before the destination; false (mentions either out of
+// order or drops one) is treated as a failed rewrite for that single day only.
+function preservesTravelOrder(draft, rewritten) {
+  const pair = extractFromToOrder(draft);
+  if (!pair) return true;
+
+  const [from, to] = pair;
+  const fromIndex = rewritten.indexOf(from);
+  const toIndex = rewritten.indexOf(to);
+  return fromIndex !== -1 && toIndex !== -1 && fromIndex < toIndex;
+}
+
+// Rewrites a whole itinerary's worth of day-summary drafts (see buildDaySummarySentence above) in
+// a single call, rather than one call per day. A per-day call is blind to every other day - it
+// has no memory of what phrasing it already used - so it reliably converges on the same handful
+// of "safe" travel-writing phrases every time ("settle in", "scenic drive", ...), which reads as
+// monotonous once a traveler reads the whole itinerary end to end. Seeing every day at once lets
+// Claude deliberately vary vocabulary, sentence rhythm, and opening words across the set, and
+// write with genuine excitement rather than just restating the facts. Still a style pass only -
+// never allowed to add or remove facts from any individual day's draft.
+//
+// entries is an array of { cardNo, draft } - only cards with a non-null draft (nothing to rewrite
+// for a suppressed single-activity/leisure day, see buildDaySummarySentence). Returns a
+// { [cardNo]: rewrittenSentence } map. Best-effort: returns {} (every card falls back to its own
+// draft) if no API key is configured, entries is empty, the response doesn't match the input
+// count, or the call fails for any reason - the itinerary never shows less than the proven
+// rule-based sentences.
+async function rewriteDaySummariesWithLLM(entries) {
+  if (!anthropicClient || !entries.length) return {};
+
+  try {
+    const response = await anthropicClient.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 4000,
+      system: 'You are polishing the day-by-day summary lines of a travel itinerary into vivid, ' +
+        'exciting, easy-to-read holiday-brochure prose - the kind that keeps a traveler engaged ' +
+        'reading through the whole trip, not a dry restatement of facts. You will be given one ' +
+        'draft sentence per day, numbered in order. Rewrite each one individually. Rules: ' +
+        '(1) for a CITY or famous LANDMARK already named in that day\'s draft, you may add brief, ' +
+        'well-known, unmistakably-true color about it (a famous nickname like "the Pink City", a ' +
+        'globally iconic monument, well-established cultural/historical character) - but only ' +
+        'facts you are highly confident are accurate and undisputed, never a guess; (2) for a ' +
+        'HOTEL or property named in that day\'s draft, add NO descriptive detail beyond its name - ' +
+        'you have no real knowledge of specific small properties (their setting, views, ambience) ' +
+        'and any invented detail is a guess that risks simply being wrong (e.g. do not call a ' +
+        'named hotel a "refuge in the foothills" unless the draft itself says so); (3) never invent ' +
+        'a place, activity, or fact that is not in the draft or well-known/true as in rule 1; ' +
+        '(4) never drop a fact that is present in that day\'s own draft; (5) when a draft names two ' +
+        'places in a from/to, departure/arrival, or origin/destination relationship, keep that same ' +
+        'relationship and order in the rewrite - do not restructure the sentence in a way that ' +
+        'changes, reverses, or leaves ambiguous which place is the origin and which is the ' +
+        'destination, and be careful not to blend a place mentioned in one day with a same-named ' +
+        'place in an adjacent day; (6) actively vary your vocabulary, sentence structure, and ' +
+        'opening words across the full set of days - do not lean on the same stock phrases (e.g. ' +
+        '"settle in", "scenic drive") more than once across the whole itinerary; (7) keep each one ' +
+        'to one or two short, punchy sentences; (8) return exactly one rewritten sentence per input ' +
+        'draft, in the same order.',
+      messages: [{
+        role: 'user',
+        content: entries.map((entry, index) => `${index + 1}. ${entry.draft}`).join('\n')
+      }],
+      output_config: {
+        format: {
+          type: 'json_schema',
+          schema: {
+            type: 'object',
+            properties: {
+              sentences: { type: 'array', items: { type: 'string' } }
+            },
+            required: ['sentences'],
+            additionalProperties: false
+          }
+        }
+      }
+    });
+
+    const text = response.content.find((block) => block.type === 'text');
+    const parsed = text && JSON.parse(text.text);
+    const sentences = parsed && parsed.sentences;
+
+    if (!Array.isArray(sentences) || sentences.length !== entries.length) {
+      console.error('[vamoosAPI] LLM day-summary batch rewrite returned a mismatched result, falling back to drafts');
+      return {};
+    }
+
+    const rewrittenByCardNo = {};
+    entries.forEach((entry, index) => {
+      const rewritten = sentences[index];
+      const safe = preservesTravelOrder(entry.draft, rewritten);
+      if (!safe) {
+        console.error(`[vamoosAPI] LLM day-summary rewrite reversed travel order for CardNo ${entry.cardNo}, falling back to its draft`);
+      }
+      rewrittenByCardNo[entry.cardNo] = safe ? rewritten : entry.draft;
+    });
+    return rewrittenByCardNo;
+  } catch (err) {
+    console.error('[vamoosAPI] failed to batch-rewrite day summaries via LLM', err);
+    return {};
+  }
+}
+
 // Finds the city the tour spends the most NIGHTS in (for the itinerary's cover photo), from the
 // same p_Rpt_QuoTourCardFormat rows the cards are built from. p_Rpt_QuoTourCardFormat only keeps
 // Cities_id on a city's first occurrence (it nulls out repeats), so it can't be used to count
@@ -697,6 +977,45 @@ async function findExistingVamoosId(operator_code, reference_code, headers) {
   return existing ? existing.vamoos_id : null;
 }
 
+// Fetches the currently-live itinerary and returns a day_number -> documents[] map of only the
+// documents NOT stamped with SYNC_SOURCE - i.e. anything attached manually in the Vamoos portal
+// (an actual ticket, etc.) rather than by this integration. Converts each one from the read shape
+// GET returns (which the create/update endpoint rejects as-is - it has extra fields like id/tag/
+// file.id that fail its "no additional properties" validation) to the plain file_url/name/meta
+// shape a POST accepts, so it can be spliced back into that day's freshly-rebuilt documents rather
+// than being silently overwritten. Best-effort: on any failure, returns {} (nothing preserved)
+// rather than blocking the create/update - only called when an existing vamoos_id was found, so
+// a brand-new itinerary never bothers with this.
+async function getManualDocumentsByDayNo(operator_code, reference_code, headers) {
+  let itinerary;
+  try {
+    const { data } = await axios.get(`${keys.vamoosHost}/itinerary/${operator_code}/${reference_code}`, { headers });
+    itinerary = data;
+  } catch (err) {
+    console.error('[vamoosAPI] failed to fetch existing itinerary for manual-document preservation', err);
+    return {};
+  }
+
+  const manualByDayNo = {};
+  (itinerary.details || []).forEach((detail) => {
+    const dayNo = detail.meta && detail.meta.day_number;
+    if (dayNo === undefined) return;
+
+    const manualDocs = (detail.documents || [])
+      .filter((doc) => !doc.meta || doc.meta.source !== SYNC_SOURCE)
+      .map((doc) => ({
+        file_url: doc.file.https_url.split('?')[0],
+        name: doc.name,
+        ...(doc.meta ? { meta: doc.meta } : {}),
+        ...(doc.icon_id ? { icon_id: doc.icon_id } : {})
+      }));
+
+    if (manualDocs.length) manualByDayNo[dayNo] = manualDocs;
+  });
+
+  return manualByDayNo;
+}
+
 module.exports = (app,db,sequelize) => {
 
   const dbQueries = vamoosDbQueries(sequelize);
@@ -735,6 +1054,13 @@ module.exports = (app,db,sequelize) => {
 
     try {
       const vamoos_id = await findExistingVamoosId(operator_code, reference_code, headers);
+
+      // only a rerun (an existing itinerary) can have manually-attached documents to preserve -
+      // a brand-new itinerary has nothing live yet to fetch
+      const manualDocumentsByDayNo = vamoos_id
+        ? await getManualDocumentsByDayNo(operator_code, reference_code, headers)
+        : {};
+
       const { locations: hotelLocations, internalIdByDayNo } = await buildHotelLocations(vamoosData.hotelsByDay, headers);
       const imsertApiKey = await getImsertApiKey(headers);
       const libraryImages = await listLibraryImages(headers);
@@ -744,14 +1070,16 @@ module.exports = (app,db,sequelize) => {
       const usedImageIds = new Set();
 
       // the cover photo is the city the tour spends the most nights in (ties go to whichever of
-      // those cities is visited first), sourced from the same undeduped QuoLines -> Cities join
-      // used to count nights per city. Claiming its photo(s) here, before any per-card/document
-      // image lookup runs, means the shared usedImageIds set already keeps that same photo from
-      // being reused in the day-to-day cards or a City document's carousel further down.
-      const quoLinesIds = vamoosData.tourCards.filter((row) => row.QuoLines_id).map((row) => row.QuoLines_id);
-      const cityRows = await dbQueries.getCitiesByQuoLinesIds(quoLinesIds);
+      // those cities is visited first), sourced from p_Rpt_QuoTourCardFormat's own City column -
+      // populated on every row (unlike Cities_id, which the SP nulls out on repeat days to dedup
+      // the City document) - so this needs no separate DB round-trip to un-dedup it. Claiming its
+      // photo(s) here, before any per-card/document image lookup runs, means the shared
+      // usedImageIds set already keeps that same photo from being reused in the day-to-day cards
+      // or a City document's carousel further down.
       const cityByQuoLinesId = {};
-      cityRows.forEach((row) => { if (row.City) cityByQuoLinesId[row.QuoLines_id] = row.City; });
+      vamoosData.tourCards.forEach((row) => {
+        if (row.QuoLines_id && row.City) cityByQuoLinesId[row.QuoLines_id] = row.City;
+      });
 
       const coverCity = findCityWithMostNights(vamoosData.tourCards, cityByQuoLinesId);
       const backgroundImages = coverCity ? await findImsertImages(coverCity, 3, imsertApiKey, usedImageIds) : [];
@@ -767,11 +1095,19 @@ module.exports = (app,db,sequelize) => {
         console.error('[vamoosAPI] failed to generate/upload services PDF', err);
       }
 
+      // opening-screen title year - the tour's actual start year, per the first row's own
+      // ServiceDate (tourCards comes back CardNo-ordered from the SP, so [0] is day one)
+      const tourYear = yearOf(vamoosData.tourCards[0] && vamoosData.tourCards[0].ServiceDate);
+
       // basic trial payload, following the Vamoos "Create An Itinerary" guide
       const itinerary_data = {
         departure_date: req.body.departure_date || toDateOnly(vamoosData.quoPrint.StartDate) || '2020-09-22',
         return_date: req.body.return_date || toDateOnly(vamoosData.quoPrint.EndDate) || '2020-09-30',
-        field1: vamoosData.quoPrint.country || 'Rome Trip 2020',
+        // Vamoos defaults new itineraries to Europe/London when this is left unset (confirmed by
+        // comparing a manually-built itinerary's own top-level "timezone" field against ours,
+        // which had none) - all Presto tours are India-based, so Asia/Calcutta always applies.
+        timezone: req.body.timezone || 'Asia/Calcutta',
+        field1: (vamoosData.quoPrint.country || 'Rome Trip 2020') + (tourYear ? `, ${tourYear}` : ''),
         field3: vamoosData.quoPrint.PaxInfo || '--',
         client_reference: vamoosData.quoPrint.Reference || '',
         background: req.body.background
@@ -791,9 +1127,24 @@ module.exports = (app,db,sequelize) => {
 
           const cardNosInOrder = Object.keys(rowsByCardNo).map(Number).sort((a, b) => a - b);
 
-          return Promise.all(cardNosInOrder.map(async (cardNo) => {
+          // Phase 1: build everything for each card except the final Additional Information
+          // content string, which needs every card's draft summary rewritten together in one
+          // batch (see rewriteDaySummariesWithLLM above) rather than one at a time.
+          const cardsData = await Promise.all(cardNosInOrder.map(async (cardNo, index) => {
             const rows = rowsByCardNo[cardNo].sort((a, b) => a.SubCardNo - b.SubCardNo);
             const firstRow = rows[0];
+
+            // A multi-day "Days At Leisure" gap card (see p_Rpt_QuoTourCardFormat's own gap-fill
+            // logic) is inserted as a single CardNo covering several real days at once - the
+            // numbering simply skips ahead to the next real activity's CardNo, so the gap between
+            // this card's CardNo and the next one in cardNosInOrder tells us how many days it
+            // actually spans. Vamoos's own "Day #" badge (meta.day_number below) has only ever
+            // been observed as a single integer, so it stays the first day of the range (safe,
+            // known-working) - the day range instead goes into the headline text, which we fully
+            // control and don't need to guess whether Vamoos supports as a range.
+            const nextCardNo = cardNosInOrder[index + 1];
+            const lastDayNo = nextCardNo && nextCardNo - cardNo > 1 ? nextCardNo - 1 : cardNo;
+            const headline = lastDayNo > cardNo ? `Days ${cardNo}-${lastDayNo} At Leisure` : firstRow.Title;
 
             const image = firstRow.ImageHint
               ? findLibraryImage(libraryImages, firstRow.ImageHint, usedImageIds)
@@ -801,12 +1152,7 @@ module.exports = (app,db,sequelize) => {
                 || null
               : null;
 
-            // Additional Information: every row for the day (AtTime bold, ServiceDesc as-is,
-            // no regex trimming) - each its own <p> block with real spaces, not &nbsp;, since the
-            // app's content renderer isn't a full HTML parser (see buildServiceSummaryByDayNo above)
-            const content = rows
-              .map((row) => `<p><strong>${row.AtTime}</strong>   ${row.ServiceDesc}</p>`)
-              .join('');
+            const draftSummary = await buildDaySummarySentence(rows, dbQueries.getHotelDescription);
 
             // per-card "Services", "Stay" and "City" documents - best-effort, so a lookup
             // failure on one day doesn't block the rest of the itinerary
@@ -831,15 +1177,43 @@ module.exports = (app,db,sequelize) => {
               console.error(`[vamoosAPI] failed to build city document for CardNo ${cardNo}`, err);
             }
 
-            const documents = [servicesDoc, stayDoc, cityDoc].filter(Boolean);
+            // re-append whatever was manually attached to this day's card last time, so
+            // regenerating from Presto doesn't wipe it out
+            const documents = [servicesDoc, stayDoc, cityDoc].filter(Boolean)
+              .concat(manualDocumentsByDayNo[cardNo] || []);
+
+            return { cardNo, headline, rows, draftSummary, image, documents };
+          }));
+
+          // Phase 2: one Claude call for the whole itinerary's worth of drafts (see
+          // rewriteDaySummariesWithLLM above for why this is batched rather than per-day), then
+          // assemble each card's final Additional Information content.
+          const rewrittenByCardNo = await rewriteDaySummariesWithLLM(
+            cardsData
+              .filter((card) => card.draftSummary)
+              .map((card) => ({ cardNo: card.cardNo, draft: card.draftSummary }))
+          );
+
+          return Promise.all(cardsData.map(async (card) => {
+            const summarySentence = rewrittenByCardNo[card.cardNo] || card.draftSummary;
+
+            // Additional Information: an optional summary (see buildDaySummarySentence/
+            // rewriteDaySummariesWithLLM above), followed by every row for the day (see
+            // formatAdditionalInfoRow above) - each its own <p> block with real spaces, not
+            // &nbsp;, since the app's content renderer isn't a full HTML parser (see
+            // buildServiceSummaryByDayNo above)
+            const rowLines = await Promise.all(
+              card.rows.map((row) => formatAdditionalInfoRow(row, dbQueries.getHotelDescription))
+            );
+            const content = (summarySentence ? `<p>${summarySentence}</p>` : '') + rowLines.join('');
 
             return {
-              headline: firstRow.Title,
+              headline: card.headline,
               content,
               content_type: 'text/html',
-              meta: { day_number: cardNo },
-              ...(image ? { image } : {}),
-              ...(documents.length ? { documents } : {})
+              meta: { day_number: card.cardNo },
+              ...(card.image ? { image: card.image } : {}),
+              ...(card.documents.length ? { documents: card.documents } : {})
             };
           }));
         })(),

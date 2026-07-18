@@ -90,22 +90,6 @@ module.exports = (sequelize) => {
     return rows[0];
   }
 
-  // p_Rpt_QuoTourCardFormat only keeps Cities_id on the first row where a city occurs (it nulls
-  // out repeats - see the SP's own "if city repeated" comment), so it can't be used to count how
-  // many days are spent in each city. Joining QuoLines -> Cities directly bypasses that dedup and
-  // gives the real (undeduped) city for every row.
-  async function getCitiesByQuoLinesIds(quoLinesIds) {
-    if (!quoLinesIds.length) return [];
-
-    const [rows] = await sequelize.query(
-      "SELECT ql.QuoLines_id, c.City " +
-        "FROM QuoLines ql " +
-        "LEFT JOIN Cities c ON ql.Cities_id = c.cities_id " +
-        "WHERE ql.QuoLines_id IN (" + quoLinesIds.map(Number).join(',') + ")",{});
-
-    return rows;
-  }
-
   /*=== gathers all the fields needed for a Vamoos itinerary from the various Presto tables ===*/
   async function getVamoosItineraryData(quoPrint_id) {
     const quoPrint = await getQuoPrintData(quoPrint_id);
@@ -135,7 +119,6 @@ module.exports = (sequelize) => {
     getCardServiceDescRows,
     getHotelDescription,
     getCityDescription,
-    getCitiesByQuoLinesIds,
     getVamoosItineraryData
   };
 

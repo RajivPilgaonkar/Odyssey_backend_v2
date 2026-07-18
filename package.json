@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.112.3",
     "axios": "^1.13.2",
     "body-parser": "^2.2.2",
     "cors": "^2.8.5",

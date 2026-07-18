@@ -1,5 +1,5 @@
 {
-  "id": 19230660,
+  "id": 19268450,
   "operator_id": 23868,
   "operator_code": "OdysseyIndia",
   "reference_code": "9312",
@@ -13,37 +13,60 @@
   "field1": "India",
   "field3": "Powell & Family",
   "source": "API",
-  "version": 36,
+  "version": 81,
   "is_current_version": true,
   "background": {
-    "id": 700889168,
-    "tag": 700889168,
+    "id": 702647430,
+    "tag": 702647430,
     "operator_id": 23868,
-    "name": "ixlib%3Drb-4.1.0%26w%3D4096%26h%3D4096%26fit%3Dmax%26fmt%3Djpg%26auto%3Dcompress",
+    "name": "external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg",
     "file": {
-      "id": 38428077,
+      "id": 38452221,
       "operator_id": 23868,
       "mime_type": "image/jpeg",
-      "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/images.unsplash.com/photo-1564507592333-c60657eea523/args/ixid=M3w1NzU2MzR8MHwxfHNlYXJjaHwxfHxBZ3JhfGVufDB8MHwwfHwxNzgzODM2MDY5fDA/ixlib=rb-4.1.0&w=4096&h=4096&fit=max&fmt=jpg&auto=compress",
-      "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/images.unsplash.com/photo-1564507592333-c60657eea523/args/ixid%3DM3w1NzU2MzR8MHwxfHNlYXJjaHwxfHxBZ3JhfGVufDB8MHwwfHwxNzgzODM2MDY5fDA/ixlib%3Drb-4.1.0%26w%3D4096%26h%3D4096%26fit%3Dmax%26fmt%3Djpg%26auto%3Dcompress?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=tbOfOQyOQSRHG5Ndsh2hB%2F3E%2F9o%3D",
-      "short_name": "photo-1564507592333-c60657eea523.jpg",
-      "variants": {},
-      "meta": {},
+      "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/14/1784025182126-71532/external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg",
+      "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784025182126-71532/external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=24z4%2BoAPP1LkbBctB%2BWe%2F%2FWypXU%3D",
+      "short_name": "external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg",
+      "variants": {
+        "app": {
+          "width": 3216,
+          "height": 2136,
+          "mime_type": "image/jpeg",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784025182126-71532/_versions/app/external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289926&Signature=zxcmhDA4tRIfnL0PRm8h4YMDHcc%3D"
+        },
+        "thumb": {
+          "width": 499,
+          "height": 332,
+          "mime_type": "image/jpeg",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784025182126-71532/_versions/thumb/external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289926&Signature=nNxapeAlYilfEutL7kHR25KUVT0%3D"
+        },
+        "app_avif": {
+          "width": 3216,
+          "height": 2136,
+          "mime_type": "image/avif",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784025182126-71532/_versions/app_avif/external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg.avif?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289926&Signature=l8Iyt5jT0cbKTOf98vE4dKn3KvM%3D"
+        }
+      },
+      "meta": {
+        "source": "unsplash",
+        "source_url": "https://images.unsplash.com/photo-1535535112387-56ffe8db21ff?ixid=M3w1NzU2MzR8MHwxfHNlYXJjaHwxfHx0cmFpbnxlbnwwfDB8MHx8MTc4NDAyNTE3MHww&ixlib=rb-4.1.0?w=4096&h=4096&fit=max&fmt=jpg&auto=compress",
+        "tracking_url": "https://api.unsplash.com/photos/mHqIs22M2Kw/download?ixid=M3w1NzU2MzR8MHwxfHNlYXJjaHwxfHx0cmFpbnxlbnwwfDB8MHx8MTc4NDAyNTE3MHww"
+      },
       "is_public": false,
       "created_by": 152479,
-      "created_at": "2026-07-12T06:10:14.000Z",
-      "updated_at": "2026-07-12T06:10:14.000Z"
+      "created_at": "2026-07-14T10:33:49.000Z",
+      "updated_at": "2026-07-14T10:33:49.000Z"
     },
     "meta": {},
     "is_folder": false,
-    "path": "/itineraries/19230660/background/ixlib%3Drb-4.1.0%26w%3D4096%26h%3D4096%26fit%3Dmax%26fmt%3Djpg%26auto%3Dcompress",
+    "path": "/itineraries/19268450/background/external_photo-1535535112387-56ffe8db21ff_1784025181175.jpg",
     "created_by": 152479,
-    "created_at": "2026-07-14T09:19:31.000Z",
-    "updated_at": "2026-07-14T09:19:31.000Z"
+    "created_at": "2026-07-17T11:45:18.000Z",
+    "updated_at": "2026-07-17T11:45:18.000Z"
   },
   "locations": [
     {
-      "id": 48843342,
+      "id": 49035254,
       "name": "The Tower House",
       "latitude": 9.9680556,
       "longitude": 76.2413889,
@@ -54,15 +77,15 @@
       "operator_id": 23868,
       "timezone": "Asia/Kolkata",
       "localisation": {},
-      "created_at": "2026-07-14T09:19:31.000Z",
-      "updated_at": "2026-07-14T09:19:31.000Z",
-      "itinerary_id": 19230660,
+      "created_at": "2026-07-17T11:45:18.000Z",
+      "updated_at": "2026-07-17T11:45:18.000Z",
+      "itinerary_id": 19268450,
       "on_weather": true,
       "on_maps": true,
       "loc_position": 0
     },
     {
-      "id": 48843343,
+      "id": 49035255,
       "name": "Shalimar Spice Garden",
       "location": "Kumily Alady Rd, Viswanathapuram, Thekkady, Periyar, Kerala 685535, India",
       "latitude": 9.6044444,
@@ -83,15 +106,15 @@
       },
       "timezone": "Asia/Kolkata",
       "localisation": {},
-      "created_at": "2026-07-14T09:19:31.000Z",
-      "updated_at": "2026-07-14T09:19:31.000Z",
-      "itinerary_id": 19230660,
+      "created_at": "2026-07-17T11:45:18.000Z",
+      "updated_at": "2026-07-17T11:45:18.000Z",
+      "itinerary_id": 19268450,
       "on_weather": true,
       "on_maps": true,
       "loc_position": 1
     },
     {
-      "id": 48843344,
+      "id": 49035256,
       "name": "Vanilla County",
       "latitude": 9.7052778,
       "longitude": 76.7966667,
@@ -102,15 +125,15 @@
       "operator_id": 23868,
       "timezone": "Asia/Kolkata",
       "localisation": {},
-      "created_at": "2026-07-14T09:19:31.000Z",
-      "updated_at": "2026-07-14T09:19:31.000Z",
-      "itinerary_id": 19230660,
+      "created_at": "2026-07-17T11:45:18.000Z",
+      "updated_at": "2026-07-17T11:45:18.000Z",
+      "itinerary_id": 19268450,
       "on_weather": true,
       "on_maps": true,
       "loc_position": 2
     },
     {
-      "id": 48843345,
+      "id": 49035257,
       "name": "Kettuvallam (Houseboat)",
       "latitude": 10.5180556,
       "longitude": 76.2208333,
@@ -121,15 +144,15 @@
       "operator_id": 23868,
       "timezone": "Asia/Kolkata",
       "localisation": {},
-      "created_at": "2026-07-14T09:19:31.000Z",
-      "updated_at": "2026-07-14T09:19:31.000Z",
-      "itinerary_id": 19230660,
+      "created_at": "2026-07-17T11:45:18.000Z",
+      "updated_at": "2026-07-17T11:45:18.000Z",
+      "itinerary_id": 19268450,
       "on_weather": true,
       "on_maps": true,
       "loc_position": 3
     },
     {
-      "id": 48843346,
+      "id": 49035258,
       "name": "The Marari Beach Resort",
       "latitude": 9.5952778,
       "longitude": 76.3016667,
@@ -140,9 +163,9 @@
       "operator_id": 23868,
       "timezone": "Asia/Kolkata",
       "localisation": {},
-      "created_at": "2026-07-14T09:19:31.000Z",
-      "updated_at": "2026-07-14T09:19:31.000Z",
-      "itinerary_id": 19230660,
+      "created_at": "2026-07-17T11:45:18.000Z",
+      "updated_at": "2026-07-17T11:45:18.000Z",
+      "itinerary_id": 19268450,
       "on_weather": true,
       "on_maps": true,
       "loc_position": 4
@@ -158,951 +181,1164 @@
   "documents": {
     "all": [
       {
-        "id": 700889170,
-        "tag": 700889170,
+        "id": 702647432,
+        "tag": 702647432,
         "operator_id": 23868,
         "name": "Documents",
         "meta": {},
         "is_folder": true,
-        "path": "/itineraries/19230660/documents/Documents",
+        "path": "/itineraries/19268450/documents/Documents",
         "children": [
           {
-            "id": 700889171,
-            "tag": 700889171,
+            "id": 702647433,
+            "tag": 702647433,
             "operator_id": 23868,
             "name": "Hotel and Agent Services.pdf",
             "file": {
-              "id": 38450548,
+              "id": 38495179,
               "operator_id": 23868,
               "mime_type": "application/pdf",
-              "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/14/1784020769207-69002/Hotel and Agent Services.pdf",
-              "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784020769207-69002/Hotel%20and%20Agent%20Services.pdf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=XbYHmanutABVcHiFAMOEMsZZiMg%3D",
+              "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288715232-1015/Hotel and Agent Services.pdf",
+              "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288715232-1015/Hotel%20and%20Agent%20Services.pdf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=pHH2ru3yqZffByG7SVAtKuNLkKM%3D",
               "short_name": "Hotel and Agent Services.pdf",
               "variants": {
                 "app": {
                   "mime_type": "application/pdf",
-                  "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784020769207-69002/_versions/app/Hotel%20and%20Agent%20Services.pdf.pdf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=XClzJcnvfnaTpcH30DnYdnRySAU%3D"
+                  "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288715232-1015/_versions/app/Hotel%20and%20Agent%20Services.pdf.pdf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289926&Signature=y9ZrGRMqSnACLMB5c2C3gAs6CDc%3D"
                 }
               },
               "meta": {},
               "is_public": false,
               "created_by": 152479,
-              "created_at": "2026-07-14T09:19:31.000Z",
-              "updated_at": "2026-07-14T09:19:31.000Z"
+              "created_at": "2026-07-17T11:45:19.000Z",
+              "updated_at": "2026-07-17T11:45:19.000Z"
             },
             "meta": {},
             "is_folder": false,
-            "path": "/itineraries/19230660/documents/Documents/Hotel and Agent Services.pdf",
+            "path": "/itineraries/19268450/documents/Documents/Hotel and Agent Services.pdf",
             "children": [],
             "created_by": 152479,
-            "created_at": "2026-07-14T09:19:31.000Z",
-            "updated_at": "2026-07-14T09:19:31.000Z"
+            "created_at": "2026-07-17T11:45:19.000Z",
+            "updated_at": "2026-07-17T11:45:19.000Z"
           }
         ],
         "created_by": 152479,
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
+        "created_at": "2026-07-17T11:45:19.000Z",
+        "updated_at": "2026-07-17T11:45:19.000Z"
       }
     ]
   },
   "details": [
     {
-      "id": 146112580,
-      "itinerary_id": 19230660,
-      "tag": 146112580,
+      "id": 146468568,
+      "itinerary_id": 19268450,
+      "tag": 146468568,
       "position": 0,
-      "headline": "Kochi",
+      "headline": "Arrive in Kochi",
       "content_type": "text/html",
-      "content": "<p><strong>13:00</strong>   Transfer from Kochi airport to hotel by 1 A/C Toyota Innova.</p><p><strong>15:00</strong>   Stay in Heritage Splendour Rooms (2 nights)</p>",
+      "content": "<p><strong>13:00</strong>   Welcome to Kochi. You are met on arrival and transferred to your hotel. </p><p><strong>15:00</strong>   1 Twin and 1 Double AC Heritage Splendour Rooms</p>",
       "meta": {
         "day_number": 1
       },
       "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889177,
-        "tag": 700889177,
-        "operator_id": 23868,
-        "name": "20091221-131309.jpg",
-        "file": {
-          "id": 38450549,
+      "documents": [
+        {
+          "id": 702647437,
+          "tag": 702647437,
           "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921052358-b3a6c652-1571-4acd-a29d-71365e7704b6/20091221-131309.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=ad7f3ce5e6e939e73ecd8e4da46b50d1a9d107c79bf7e7a6d538e3d0a7000af1",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921052358-b3a6c652-1571-4acd-a29d-71365e7704b6/20091221-131309.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3Dad7f3ce5e6e939e73ecd8e4da46b50d1a9d107c79bf7e7a6d538e3d0a7000af1?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=ysxi3lUUFo6eLirR05fscd9jlYI%3D",
-          "short_name": "20091221-131309.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:32.000Z",
-          "updated_at": "2026-07-14T09:19:32.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112580/background/20091221-131309.jpg",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:32.000Z",
-        "updated_at": "2026-07-14T09:19:32.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843342,
-        "name": "The Tower House",
-        "latitude": 9.9680556,
-        "longitude": 76.2413889,
-        "description": "1/320, Tower Road\r\nVasco Da Gama Square\r\nFort Cochin — Ajay Singh Rawat ()",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:31.000Z",
-      "updated_at": "2026-07-14T09:19:32.000Z"
-    },
-    {
-      "id": 146112581,
-      "itinerary_id": 19230660,
-      "tag": 146112581,
-      "position": 1,
-      "headline": "The Tower House",
-      "content_type": "text/html",
-      "content": "<p>1/320, Tower Road\r\nVasco Da Gama Square\r\nFort Cochin</p><p>Ajay Singh Rawat ()</p><p>Mr. Ajay Singh Rawat\r(0484) 221 6960-2</p>",
-      "meta": {
-        "day_number": 1
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889180,
-        "tag": 700889180,
-        "operator_id": 23868,
-        "name": "TheTowerHouse",
-        "file": {
-          "id": 38438069,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/13/1783943938557-68172/TheTowerHouse.jpg",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/13/1783943938557-68172/TheTowerHouse.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=Xbi%2FCkQLCfwfHCsZnSMLzKzhpcI%3D",
-          "short_name": "TheTowerHouse.jpg",
-          "variants": {
-            "app": {
-              "width": 499,
-              "height": 293,
-              "mime_type": "image/jpeg",
-              "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/13/1783943938557-68172/_versions/app/TheTowerHouse.jpg.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=OnI7m35f9WzRG%2BNZgYNwpndl2I8%3D"
-            },
-            "thumb": {
-              "width": 499,
-              "height": 293,
-              "mime_type": "image/jpeg",
-              "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/13/1783943938557-68172/_versions/thumb/TheTowerHouse.jpg.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=v3BZsR9ODOhaJLo2A%2FQ%2FHEicQaY%3D"
-            },
-            "app_avif": {
-              "width": 499,
-              "height": 293,
-              "mime_type": "image/avif",
-              "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/13/1783943938557-68172/_versions/app_avif/TheTowerHouse.jpg.avif?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=feu9KZ7it9q2AcEgX7Jads0BalU%3D"
-            }
+          "name": "Services",
+          "file": {
+            "id": 38495053,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399307-995/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399307-995/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=x9O4tyKODszGKKQE8a21ApfIik4%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:02.000Z",
+            "updated_at": "2026-07-17T11:40:02.000Z"
           },
-          "meta": {},
-          "is_public": false,
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 3
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468568/documents/Services",
+          "children": [],
           "created_by": 152479,
-          "created_at": "2026-07-13T11:58:59.000Z",
-          "updated_at": "2026-07-13T11:59:01.000Z"
+          "created_at": "2026-07-17T11:45:19.000Z",
+          "updated_at": "2026-07-17T11:45:19.000Z"
         },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112581/background/TheTowerHouse",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:32.000Z",
-        "updated_at": "2026-07-14T09:19:32.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843342,
-        "name": "The Tower House",
-        "latitude": 9.9680556,
-        "longitude": 76.2413889,
-        "description": "1/320, Tower Road\r\nVasco Da Gama Square\r\nFort Cochin — Ajay Singh Rawat ()",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:32.000Z",
-      "updated_at": "2026-07-14T09:19:32.000Z"
-    },
-    {
-      "id": 146112582,
-      "itinerary_id": 19230660,
-      "tag": 146112582,
-      "position": 2,
-      "headline": "Kochi",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Half-day city tour of Fort Cochin.</p>",
-      "meta": {
-        "day_number": 2
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889222,
-        "tag": 700889222,
-        "operator_id": 23868,
-        "name": "DSCN3597.JPG",
-        "file": {
-          "id": 38450550,
+        {
+          "id": 702647438,
+          "tag": 702647438,
           "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921056045-402f5e7f-ee24-49cc-8602-c51cbcb4f760/DSCN3597.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=e97eded154071909839b1786071cdca4080c875b39f51ea277be1226552f9948",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921056045-402f5e7f-ee24-49cc-8602-c51cbcb4f760/DSCN3597.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3De97eded154071909839b1786071cdca4080c875b39f51ea277be1226552f9948?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=EQC1W4W2urJWaL2K9z52U%2Fqx%2BNs%3D",
-          "short_name": "DSCN3597.JPG.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
+          "name": "Stay",
+          "file": {
+            "id": 38495054,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399830-1008/Stay.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399830-1008/Stay.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=NIOBCk4yFUq1fUVofzPn6HTAX1g%3D",
+            "short_name": "Stay.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:02.000Z",
+            "updated_at": "2026-07-17T11:40:02.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 4
+          },
+          "icon_id": 288,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468568/documents/Stay",
+          "children": [],
           "created_by": 152479,
-          "created_at": "2026-07-14T09:19:33.000Z",
-          "updated_at": "2026-07-14T09:19:33.000Z"
+          "created_at": "2026-07-17T11:45:19.000Z",
+          "updated_at": "2026-07-17T11:45:19.000Z"
         },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112582/background/DSCN3597.JPG",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:33.000Z",
-        "updated_at": "2026-07-14T09:19:33.000Z"
-      },
-      "additional_images": [],
-      "created_at": "2026-07-14T09:19:32.000Z",
-      "updated_at": "2026-07-14T09:19:33.000Z"
-    },
-    {
-      "id": 146112589,
-      "itinerary_id": 19230660,
-      "tag": 146112589,
-      "position": 3,
-      "headline": "Thekkady",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Drive From Kochi to Thekkady</p><p><strong>14:00</strong>   Stay in Elegant Rooms (2 nights)</p><p><strong>15:30</strong>   Spice plantation visit.</p>",
-      "meta": {
-        "day_number": 3
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889279,
-        "tag": 700889279,
-        "operator_id": 23868,
-        "name": "DSC05686.JPG",
-        "file": {
-          "id": 38450553,
+        {
+          "id": 702647439,
+          "tag": 702647439,
           "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502385-9bf069c1-f5b1-460e-8388-afb485057b0c/DSC05686.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=7ee66003715d9ee41496449f443376af87fc85ee07f5ecef5bdf96aba00ffc5a",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502385-9bf069c1-f5b1-460e-8388-afb485057b0c/DSC05686.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D7ee66003715d9ee41496449f443376af87fc85ee07f5ecef5bdf96aba00ffc5a?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=JFRHIz%2FKJhNIg%2Bl9720Lov0cR2Y%3D",
-          "short_name": "DSC05686.JPG.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
+          "name": "City",
+          "file": {
+            "id": 38495052,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400696-993/City.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400696-993/City.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=5COf%2FCG4pMj4Mx3hAv3RgWQ0y60%3D",
+            "short_name": "City.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:02.000Z",
+            "updated_at": "2026-07-17T11:40:02.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 5
+          },
+          "icon_id": 284,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468568/documents/City",
+          "children": [],
           "created_by": 152479,
-          "created_at": "2026-07-14T09:19:34.000Z",
-          "updated_at": "2026-07-14T09:19:34.000Z"
+          "created_at": "2026-07-17T11:45:19.000Z",
+          "updated_at": "2026-07-17T11:45:19.000Z"
         },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112589/background/DSC05686.JPG",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:34.000Z",
-        "updated_at": "2026-07-14T09:19:34.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843343,
-        "name": "Shalimar Spice Garden",
-        "location": "Kumily Alady Rd, Viswanathapuram, Thekkady, Periyar, Kerala 685535, India",
-        "latitude": 9.6044444,
-        "longitude": 77.17,
-        "description": "Murikkady P.O.\r\nKumily\r\nIdukki District",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "nested": {
-          "vamoos_id": 2498162,
-          "type": "stay",
-          "operator_code": "ShalimarSG",
-          "reference_code": "DEFAULT",
-          "long_description": "This is the most jungle like experience you will get out of the properties in the area.\n\nA stream runs through the property with a wooden bridge built over it and the farm surrounding it, so that you can enter into the property. A unique beginning to a stay.\n\nThere are 20 rooms here, consisting of; 7 Elegant Rooms, 11 Elegant Cottages and 2 Honeymoon Cottages. All are thatched in a traditional Keralan style with boutique interiors and outside sitting areas looking onto the spice gardens.\n\nAs this is quite an isolated property you are likely to dine here but with the choice of Keralan, Indian, Italian and Continental dishes to choose from you will be spoilt for choice.\n\nThere are a variety of treks and walks on offer here, as well as boat cruises and bamboo rafting. For a more relaxing past-time enjoy the Ayurvedic treatment here.\n\nNote: This hotel does not currently hold a license to sell alcohol. Guests are welcome to bring their own alcohol to consume in their rooms if they wish.",
-          "short_description": "The Shalimar Spice Garden is in a very quiet location, a 15 minute drive from Thekkady town. This makes it more isolated and so perfect for those wishing to get away from it all and completely immerse in their natural surroundings. ",
-          "preview_link_id": "274f01a3-6db4-4081-9266-2b7246f50162"
-        },
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:33.000Z",
-      "updated_at": "2026-07-14T09:19:34.000Z"
-    },
-    {
-      "id": 146112598,
-      "itinerary_id": 19230660,
-      "tag": 146112598,
-      "position": 4,
-      "headline": "Shalimar Spice Garden",
-      "content_type": "text/html",
-      "content": "<p>Murikkady P.O.\r\nKumily\r\nIdukki District</p><p>\r(04869) 222 132, 223 232</p>",
-      "meta": {
-        "day_number": 3
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889286,
-        "tag": 700889286,
-        "operator_id": 23868,
-        "name": "Elegant Cottage interior.JPG",
-        "file": {
-          "id": 38450554,
+        {
+          "id": 702647440,
+          "tag": 702647440,
           "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502248-e3a9f63f-7a0c-44e6-99d3-142cb5e19422/Elegant%20Cottage%20interior.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=3124610d57f8925bdf9cc0643acd4eebbf16d6aecb03f5e1083fd3a4207adab6",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502248-e3a9f63f-7a0c-44e6-99d3-142cb5e19422/Elegant%2520Cottage%2520interior.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D3124610d57f8925bdf9cc0643acd4eebbf16d6aecb03f5e1083fd3a4207adab6?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=2D6GhTbz%2FLLWWQWoCRXTRQslDtA%3D",
-          "short_name": "Elegant%20Cottage%20interior.JPG.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
+          "name": "Train Ticket",
+          "file": {
+            "id": 38495178,
+            "operator_id": 23868,
+            "mime_type": "application/pdf",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288699893-1010/Train Ticket.pdf",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288699893-1010/Train%20Ticket.pdf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=9TP14ye%2Fzs6p1uFJQyiUdADPTHA%3D",
+            "short_name": "Train Ticket.pdf",
+            "variants": {
+              "app": {
+                "mime_type": "application/pdf",
+                "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288699893-1010/Train%20Ticket.pdf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289926&Signature=UnusNzGnUrfTAKrDO%2BduHY%2Fpgb4%3D"
+              }
+            },
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:45:00.000Z",
+            "updated_at": "2026-07-17T11:45:01.000Z"
+          },
+          "meta": {
+            "sequence": 6
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468568/documents/Train Ticket",
+          "children": [],
           "created_by": 152479,
-          "created_at": "2026-07-14T09:19:34.000Z",
-          "updated_at": "2026-07-14T09:19:34.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112598/background/Elegant Cottage interior.JPG",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:34.000Z",
-        "updated_at": "2026-07-14T09:19:34.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843343,
-        "name": "Shalimar Spice Garden",
-        "location": "Kumily Alady Rd, Viswanathapuram, Thekkady, Periyar, Kerala 685535, India",
-        "latitude": 9.6044444,
-        "longitude": 77.17,
-        "description": "Murikkady P.O.\r\nKumily\r\nIdukki District",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "nested": {
-          "vamoos_id": 2498162,
-          "type": "stay",
-          "operator_code": "ShalimarSG",
-          "reference_code": "DEFAULT",
-          "long_description": "This is the most jungle like experience you will get out of the properties in the area.\n\nA stream runs through the property with a wooden bridge built over it and the farm surrounding it, so that you can enter into the property. A unique beginning to a stay.\n\nThere are 20 rooms here, consisting of; 7 Elegant Rooms, 11 Elegant Cottages and 2 Honeymoon Cottages. All are thatched in a traditional Keralan style with boutique interiors and outside sitting areas looking onto the spice gardens.\n\nAs this is quite an isolated property you are likely to dine here but with the choice of Keralan, Indian, Italian and Continental dishes to choose from you will be spoilt for choice.\n\nThere are a variety of treks and walks on offer here, as well as boat cruises and bamboo rafting. For a more relaxing past-time enjoy the Ayurvedic treatment here.\n\nNote: This hotel does not currently hold a license to sell alcohol. Guests are welcome to bring their own alcohol to consume in their rooms if they wish.",
-          "short_description": "The Shalimar Spice Garden is in a very quiet location, a 15 minute drive from Thekkady town. This makes it more isolated and so perfect for those wishing to get away from it all and completely immerse in their natural surroundings. ",
-          "preview_link_id": "274f01a3-6db4-4081-9266-2b7246f50162"
-        },
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:34.000Z",
-      "updated_at": "2026-07-14T09:19:34.000Z"
-    },
-    {
-      "id": 146112599,
-      "itinerary_id": 19230660,
-      "tag": 146112599,
-      "position": 5,
-      "headline": "Thekkady",
-      "content_type": "text/html",
-      "content": "<p><strong>07:00</strong>   Nature walk in Periyar Wildlife Sanctuary.</p>",
-      "meta": {
-        "day_number": 4
-      },
-      "details": {},
-      "documents": [],
+          "created_at": "2026-07-17T11:45:19.000Z",
+          "updated_at": "2026-07-17T11:45:19.000Z"
+        }
+      ],
       "image": {
-        "id": 700889289,
-        "tag": 700889289,
-        "operator_id": 23868,
-        "name": "Villa with temperature-controlled pool.JPG",
-        "file": {
-          "id": 38450555,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502365-e2b090f7-c18e-431f-8b80-33342de6f0d0/Villa%20with%20temperature-controlled%20pool.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0953f2241b32f0a31e40a84f42b2f05499fcf3de653627117bbceac6e336188e",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502365-e2b090f7-c18e-431f-8b80-33342de6f0d0/Villa%2520with%2520temperature-controlled%2520pool.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D0953f2241b32f0a31e40a84f42b2f05499fcf3de653627117bbceac6e336188e?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=bvWnlzs4RH36mY1%2B0CPpGbVlESc%3D",
-          "short_name": "Villa%20with%20temperature-controlled%20pool.JPG.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:35.000Z",
-          "updated_at": "2026-07-14T09:19:35.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112599/background/Villa with temperature-controlled pool.JPG",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:35.000Z",
-        "updated_at": "2026-07-14T09:19:35.000Z"
-      },
-      "additional_images": [],
-      "created_at": "2026-07-14T09:19:34.000Z",
-      "updated_at": "2026-07-14T09:19:35.000Z"
-    },
-    {
-      "id": 146112600,
-      "itinerary_id": 19230660,
-      "tag": 146112600,
-      "position": 6,
-      "headline": "Teekoy",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Drive From Thekkady to Teekoy</p><p><strong>11:30</strong>   Stay in Heritage Rooms (2 nights)</p><p><strong>17:00</strong>   Full day at leisure to explore Vanilla County.\rthis should be the cooking class at Vanilla County</p>",
-      "meta": {
-        "day_number": 5
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889294,
-        "tag": 700889294,
-        "operator_id": 23868,
-        "name": "city_493_large_1.jpg",
-        "file": {
-          "id": 38450556,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/14/1784020771499-71532/city_493_large_1.jpg",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784020771499-71532/city_493_large_1.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=rk%2FuyyBeBfzUUqSLzpjFWcVE6r8%3D",
-          "short_name": "city_493_large_1.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:35.000Z",
-          "updated_at": "2026-07-14T09:19:35.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112600/background/city_493_large_1.jpg",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:35.000Z",
-        "updated_at": "2026-07-14T09:19:35.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843344,
-        "name": "Vanilla County",
-        "latitude": 9.7052778,
-        "longitude": 76.7966667,
-        "description": "Mavady Estate\r\nKottayam District — Baby Mathew Vallikappan (90486 24648)",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:35.000Z",
-      "updated_at": "2026-07-14T09:19:35.000Z"
-    },
-    {
-      "id": 146112601,
-      "itinerary_id": 19230660,
-      "tag": 146112601,
-      "position": 7,
-      "headline": "Vanilla County",
-      "content_type": "text/html",
-      "content": "<p>Mavady Estate\r\nKottayam District</p><p>Baby Mathew Vallikappan (90486 24648)</p><p>Mr. Baby Mathew Vallikappan\rMobile:90486 24648\r(04822) 281 225</p>",
-      "meta": {
-        "day_number": 5
-      },
-      "details": {},
-      "documents": [],
-      "additional_images": [],
-      "location": {
-        "id": 48843344,
-        "name": "Vanilla County",
-        "latitude": 9.7052778,
-        "longitude": 76.7966667,
-        "description": "Mavady Estate\r\nKottayam District — Baby Mathew Vallikappan (90486 24648)",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:35.000Z",
-      "updated_at": "2026-07-14T09:19:35.000Z"
-    },
-    {
-      "id": 146112602,
-      "itinerary_id": 19230660,
-      "tag": 146112602,
-      "position": 8,
-      "headline": "Teekoy",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Full day at leisure to explore Vanilla County.</p>",
-      "meta": {
-        "day_number": 6
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889297,
-        "tag": 700889297,
-        "operator_id": 23868,
-        "name": "city_493_large_2.jpg",
-        "file": {
-          "id": 38450557,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/14/1784020771201-71566/city_493_large_2.jpg",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/14/1784020771201-71566/city_493_large_2.jpg?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=ZK62jKOUGfTOIWpfD3UfmRBgDOk%3D",
-          "short_name": "city_493_large_2.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:35.000Z",
-          "updated_at": "2026-07-14T09:19:35.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112602/background/city_493_large_2.jpg",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:35.000Z",
-        "updated_at": "2026-07-14T09:19:35.000Z"
-      },
-      "additional_images": [],
-      "created_at": "2026-07-14T09:19:35.000Z",
-      "updated_at": "2026-07-14T09:19:35.000Z"
-    },
-    {
-      "id": 146112603,
-      "itinerary_id": 19230660,
-      "tag": 146112603,
-      "position": 9,
-      "headline": "Alleppey",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Drive From Teekoy to Alleppey</p><p><strong>11:30</strong>   Stay in Heritage Room (1 night)</p>",
-      "meta": {
-        "day_number": 7
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889331,
-        "tag": 700889331,
-        "operator_id": 23868,
-        "name": "DSCN5093.JPG",
-        "file": {
-          "id": 38450558,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783922777898-60ef4463-c60f-4a8d-aba3-85ba127b7277/DSCN5093.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=519ff2f2f1d3f1522d9f568c98d7891035c8fb0039ffd2fd50694e3e8701ec60",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783922777898-60ef4463-c60f-4a8d-aba3-85ba127b7277/DSCN5093.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D519ff2f2f1d3f1522d9f568c98d7891035c8fb0039ffd2fd50694e3e8701ec60?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=5wGFPNVtI15wkHeB61N1o832HOQ%3D",
-          "short_name": "DSCN5093.JPG.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:36.000Z",
-          "updated_at": "2026-07-14T09:19:36.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112603/background/DSCN5093.JPG",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:36.000Z",
-        "updated_at": "2026-07-14T09:19:36.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843345,
-        "name": "Kettuvallam (Houseboat)",
-        "latitude": 10.5180556,
-        "longitude": 76.2208333,
-        "description": "",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:35.000Z",
-      "updated_at": "2026-07-14T09:19:36.000Z"
-    },
-    {
-      "id": 146112610,
-      "itinerary_id": 19230660,
-      "tag": 146112610,
-      "position": 10,
-      "headline": "Kettuvallam (Houseboat)",
-      "content_type": "text/html",
-      "content": "<p>\r(0484) 266 9933, 266 8594, 266 9944, 266 9955</p>",
-      "meta": {
-        "day_number": 7
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889366,
-        "tag": 700889366,
-        "operator_id": 23868,
-        "name": "DSCN5066.JPG",
-        "file": {
-          "id": 38450559,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783922777899-393f0e00-8e22-468d-a892-87a89f46411e/DSCN5066.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=4cf7e49e6df5c4f55c6d2fa1efe071e3ce1ad5ec499e72af8c4957be465b91d7",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783922777899-393f0e00-8e22-468d-a892-87a89f46411e/DSCN5066.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D4cf7e49e6df5c4f55c6d2fa1efe071e3ce1ad5ec499e72af8c4957be465b91d7?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=VXt3GbPTp1lLLGbB32TggVcG6Wc%3D",
-          "short_name": "DSCN5066.JPG.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:36.000Z",
-          "updated_at": "2026-07-14T09:19:36.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112610/background/DSCN5066.JPG",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:36.000Z",
-        "updated_at": "2026-07-14T09:19:36.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843345,
-        "name": "Kettuvallam (Houseboat)",
-        "latitude": 10.5180556,
-        "longitude": 76.2208333,
-        "description": "",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:36.000Z",
-      "updated_at": "2026-07-14T09:19:36.000Z"
-    },
-    {
-      "id": 146112617,
-      "itinerary_id": 19230660,
-      "tag": 146112617,
-      "position": 11,
-      "headline": "Mararikulam",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Drive From Alleppey to Mararikulam</p><p><strong>10:00</strong>   Stay in Garden Pool Villas (2 nights)</p><p><strong>19:00</strong>   Full day at leisure on the beach.\rSpecial Seafood dinner</p>",
-      "meta": {
-        "day_number": 8
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889403,
-        "tag": 700889403,
-        "operator_id": 23868,
-        "name": "Marari_007.jpg",
-        "file": {
-          "id": 38450560,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078451-5c24c4ed-c76e-4f96-b175-279af96f756d/Marari_007.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=1f1e35e0855d402ade01e7b4dbe628e96444f06b0f875bf093a55478ed4bb719",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078451-5c24c4ed-c76e-4f96-b175-279af96f756d/Marari_007.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D1f1e35e0855d402ade01e7b4dbe628e96444f06b0f875bf093a55478ed4bb719?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=uYGCRqtnqc0Y0Ecps%2Bv4IULq%2FiY%3D",
-          "short_name": "Marari_007.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:38.000Z",
-          "updated_at": "2026-07-14T09:19:38.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112617/background/Marari_007.jpg",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:38.000Z",
-        "updated_at": "2026-07-14T09:19:38.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843346,
-        "name": "The Marari Beach Resort",
-        "latitude": 9.5952778,
-        "longitude": 76.3016667,
-        "description": "Distr. Allapuzha",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:36.000Z",
-      "updated_at": "2026-07-14T09:19:38.000Z"
-    },
-    {
-      "id": 146112624,
-      "itinerary_id": 19230660,
-      "tag": 146112624,
-      "position": 12,
-      "headline": "The Marari Beach Resort",
-      "content_type": "text/html",
-      "content": "<p>Distr. Allapuzha</p><p>\r(0478) 283 1500, 286 3801, 286 3802</p>",
-      "meta": {
-        "day_number": 8
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889408,
-        "tag": 700889408,
-        "operator_id": 23868,
-        "name": "Marari_036.jpg",
-        "file": {
-          "id": 38450561,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078452-96b13be5-b1ee-4396-91fb-0753d7c7d65c/Marari_036.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=55eff7ad1e683b762fb4d8c5717fe83d0a493cf6228ddf35c15a32e168bd0148",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078452-96b13be5-b1ee-4396-91fb-0753d7c7d65c/Marari_036.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D55eff7ad1e683b762fb4d8c5717fe83d0a493cf6228ddf35c15a32e168bd0148?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=mJySO22FAvxXMNzsWV3XA%2FA%2BUM8%3D",
-          "short_name": "Marari_036.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:39.000Z",
-          "updated_at": "2026-07-14T09:19:39.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112624/background/Marari_036.jpg",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:39.000Z",
-        "updated_at": "2026-07-14T09:19:39.000Z"
-      },
-      "additional_images": [],
-      "location": {
-        "id": 48843346,
-        "name": "The Marari Beach Resort",
-        "latitude": 9.5952778,
-        "longitude": 76.3016667,
-        "description": "Distr. Allapuzha",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:38.000Z",
-      "updated_at": "2026-07-14T09:19:39.000Z"
-    },
-    {
-      "id": 146112625,
-      "itinerary_id": 19230660,
-      "tag": 146112625,
-      "position": 13,
-      "headline": "Mararikulam",
-      "content_type": "text/html",
-      "content": "<p><strong>11:00</strong>   Full day at leisure on the beach.\rInteractive Farm to table experience for Lunch</p>",
-      "meta": {
-        "day_number": 9
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889443,
-        "tag": 700889443,
-        "operator_id": 23868,
-        "name": "20170225073815AMSeafoodgrill2.jpg",
-        "file": {
-          "id": 38450562,
-          "operator_id": 23868,
-          "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078450-2ff77108-998c-43d9-85d9-0a3b08f9f3df/20170225073815AMSeafoodgrill2.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=9be8540f1d55c5caaf7c4904990a2c4a048fa3173dd7296a4de31b0546e0771c",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078450-2ff77108-998c-43d9-85d9-0a3b08f9f3df/20170225073815AMSeafoodgrill2.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D9be8540f1d55c5caaf7c4904990a2c4a048fa3173dd7296a4de31b0546e0771c?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=HmL%2FfkCIr6b6LGDERv1%2FGUJGtQA%3D",
-          "short_name": "20170225073815AMSeafoodgrill2.jpg",
-          "variants": {},
-          "meta": {},
-          "is_public": false,
-          "created_by": 152479,
-          "created_at": "2026-07-14T09:19:39.000Z",
-          "updated_at": "2026-07-14T09:19:39.000Z"
-        },
-        "meta": {},
-        "is_folder": false,
-        "path": "/itineraries/19230660/details/146112625/background/20170225073815AMSeafoodgrill2.jpg",
-        "created_by": 152479,
-        "created_at": "2026-07-14T09:19:39.000Z",
-        "updated_at": "2026-07-14T09:19:39.000Z"
-      },
-      "additional_images": [],
-      "created_at": "2026-07-14T09:19:39.000Z",
-      "updated_at": "2026-07-14T09:19:39.000Z"
-    },
-    {
-      "id": 146112632,
-      "itinerary_id": 19230660,
-      "tag": 146112632,
-      "position": 14,
-      "headline": "Kochi",
-      "content_type": "text/html",
-      "content": "<p><strong>09:00</strong>   Drive From Mararikulam to Kochi</p><p><strong>10:30</strong>   Stay in Heritage Splendour Rooms (1 night)</p><p><strong>18:00</strong>   Evening Kathakali dance performance.</p>",
-      "meta": {
-        "day_number": 10
-      },
-      "details": {},
-      "documents": [],
-      "image": {
-        "id": 700889451,
-        "tag": 700889451,
+        "id": 702647466,
+        "tag": 702647466,
         "operator_id": 23868,
         "name": "DSCN6244.JPG",
         "file": {
-          "id": 38450563,
+          "id": 38495183,
           "operator_id": 23868,
           "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921057080-4acef70a-1bea-4a3c-9af8-ce2623c40402/DSCN6244.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=aa3d8b1722cefd55e321dfbdb3039dac9b13b5e9b39a4ebb24b386594911e5b3",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921057080-4acef70a-1bea-4a3c-9af8-ce2623c40402/DSCN6244.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3Daa3d8b1722cefd55e321dfbdb3039dac9b13b5e9b39a4ebb24b386594911e5b3?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=yEw75HxDayxGJ9Erds8dp0GXgT4%3D",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921057080-4acef70a-1bea-4a3c-9af8-ce2623c40402/DSCN6244.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=8113f93bcc3281f7e31199d7a3664e281abb66df006ce24c679f2c9cfd911491",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921057080-4acef70a-1bea-4a3c-9af8-ce2623c40402/DSCN6244.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D8113f93bcc3281f7e31199d7a3664e281abb66df006ce24c679f2c9cfd911491?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=sT2swCT7pJi04EgiP%2BcvA%2B6WjAM%3D",
           "short_name": "DSCN6244.JPG.jpg",
           "variants": {},
           "meta": {},
           "is_public": false,
           "created_by": 152479,
-          "created_at": "2026-07-14T09:19:40.000Z",
-          "updated_at": "2026-07-14T09:19:40.000Z"
+          "created_at": "2026-07-17T11:45:20.000Z",
+          "updated_at": "2026-07-17T11:45:20.000Z"
         },
         "meta": {},
         "is_folder": false,
-        "path": "/itineraries/19230660/details/146112632/background/DSCN6244.JPG",
+        "path": "/itineraries/19268450/details/146468568/background/DSCN6244.JPG",
         "created_by": 152479,
-        "created_at": "2026-07-14T09:19:40.000Z",
-        "updated_at": "2026-07-14T09:19:40.000Z"
+        "created_at": "2026-07-17T11:45:20.000Z",
+        "updated_at": "2026-07-17T11:45:20.000Z"
       },
       "additional_images": [],
-      "location": {
-        "id": 48843342,
-        "name": "The Tower House",
-        "latitude": 9.9680556,
-        "longitude": 76.2413889,
-        "description": "1/320, Tower Road\r\nVasco Da Gama Square\r\nFort Cochin — Ajay Singh Rawat ()",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:39.000Z",
-      "updated_at": "2026-07-14T09:19:40.000Z"
+      "created_at": "2026-07-17T11:45:19.000Z",
+      "updated_at": "2026-07-17T11:45:20.000Z"
     },
     {
-      "id": 146112633,
-      "itinerary_id": 19230660,
-      "tag": 146112633,
-      "position": 15,
-      "headline": "The Tower House",
-      "content_type": "text/html",
-      "content": "<p>1/320, Tower Road\r\nVasco Da Gama Square\r\nFort Cochin</p><p>Ajay Singh Rawat ()</p><p>Mr. Ajay Singh Rawat\r(0484) 221 6960-2</p>",
-      "meta": {
-        "day_number": 10
-      },
-      "details": {},
-      "documents": [],
-      "additional_images": [],
-      "location": {
-        "id": 48843342,
-        "name": "The Tower House",
-        "latitude": 9.9680556,
-        "longitude": 76.2413889,
-        "description": "1/320, Tower Road\r\nVasco Da Gama Square\r\nFort Cochin — Ajay Singh Rawat ()",
-        "country": "India",
-        "country_iso": "IN",
-        "meta": {},
-        "operator_id": 23868,
-        "timezone": "Asia/Kolkata",
-        "localisation": {},
-        "created_at": "2026-07-14T09:19:31.000Z",
-        "updated_at": "2026-07-14T09:19:31.000Z"
-      },
-      "created_at": "2026-07-14T09:19:40.000Z",
-      "updated_at": "2026-07-14T09:19:40.000Z"
-    },
-    {
-      "id": 146112634,
-      "itinerary_id": 19230660,
-      "tag": 146112634,
-      "position": 16,
+      "id": 146468569,
+      "itinerary_id": 19268450,
+      "tag": 146468569,
+      "position": 1,
       "headline": "Kochi",
       "content_type": "text/html",
-      "content": "<p><strong>04:00</strong>   Departure transfer in Kochi from hotel to Cochin international airport. (Pax make their own arrangements)</p>",
+      "content": "<p><strong>09:00</strong>   Half-day city tour of Fort Cochin</p>",
       "meta": {
-        "day_number": 11
+        "day_number": 2
       },
       "details": {},
-      "documents": [],
+      "documents": [
+        {
+          "id": 702647469,
+          "tag": 702647469,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495056,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399943-1015/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399943-1015/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=k4U5E2bGbhQooAkt04y66%2FRQcHI%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:03.000Z",
+            "updated_at": "2026-07-17T11:40:03.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 1
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468569/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:20.000Z",
+          "updated_at": "2026-07-17T11:45:20.000Z"
+        }
+      ],
       "image": {
-        "id": 700889484,
-        "tag": 700889484,
+        "id": 702647479,
+        "tag": 702647479,
         "operator_id": 23868,
         "name": "DSCN6169.JPG",
         "file": {
-          "id": 38450564,
+          "id": 38495186,
           "operator_id": 23868,
           "mime_type": "image/jpeg",
-          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921056134-4217584f-f9cc-4669-87fb-bcff8c74c924/DSCN6169.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260714T091930Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260714%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=cf4ef72a47a5627775c50b818d2a9b20518c2924e1cf9c64fbacd210bba07d31",
-          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921056134-4217584f-f9cc-4669-87fb-bcff8c74c924/DSCN6169.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260714T091930Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260714%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3Dcf4ef72a47a5627775c50b818d2a9b20518c2924e1cf9c64fbacd210bba07d31?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784021980&Signature=YqRXjchIh99mIa6QLvUK1OuUuZE%3D",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921056134-4217584f-f9cc-4669-87fb-bcff8c74c924/DSCN6169.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=c41a00e730c358851f4114d7822c852fe7c098648223cfda1b787cd0b4345b17",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921056134-4217584f-f9cc-4669-87fb-bcff8c74c924/DSCN6169.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3Dc41a00e730c358851f4114d7822c852fe7c098648223cfda1b787cd0b4345b17?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=EYYC039nNYEJgmHBklwO3j1Z0wE%3D",
           "short_name": "DSCN6169.JPG.jpg",
           "variants": {},
           "meta": {},
           "is_public": false,
           "created_by": 152479,
-          "created_at": "2026-07-14T09:19:40.000Z",
-          "updated_at": "2026-07-14T09:19:40.000Z"
+          "created_at": "2026-07-17T11:45:20.000Z",
+          "updated_at": "2026-07-17T11:45:20.000Z"
         },
         "meta": {},
         "is_folder": false,
-        "path": "/itineraries/19230660/details/146112634/background/DSCN6169.JPG",
+        "path": "/itineraries/19268450/details/146468569/background/DSCN6169.JPG",
         "created_by": 152479,
-        "created_at": "2026-07-14T09:19:40.000Z",
-        "updated_at": "2026-07-14T09:19:40.000Z"
+        "created_at": "2026-07-17T11:45:20.000Z",
+        "updated_at": "2026-07-17T11:45:20.000Z"
       },
       "additional_images": [],
-      "created_at": "2026-07-14T09:19:40.000Z",
-      "updated_at": "2026-07-14T09:19:40.000Z"
+      "created_at": "2026-07-17T11:45:20.000Z",
+      "updated_at": "2026-07-17T11:45:20.000Z"
+    },
+    {
+      "id": 146468570,
+      "itinerary_id": 19268450,
+      "tag": 146468570,
+      "position": 2,
+      "headline": "Drive from Kochi to Thekkady",
+      "content_type": "text/html",
+      "content": "<p><strong>09:00</strong>   Drive from Kochi to Thekkady</p><p><strong>14:00</strong>   1 Twin and 1 Double Elegant Rooms</p><p><strong>15:30</strong>   Spice plantation visit</p>",
+      "meta": {
+        "day_number": 3
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647482,
+          "tag": 702647482,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495061,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399922-995/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399922-995/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=uqNKogN20bVlHLzHLkoALSXcI%2BU%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:04.000Z",
+            "updated_at": "2026-07-17T11:40:04.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 3
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468570/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:20.000Z",
+          "updated_at": "2026-07-17T11:45:20.000Z"
+        },
+        {
+          "id": 702647483,
+          "tag": 702647483,
+          "operator_id": 23868,
+          "name": "Stay",
+          "file": {
+            "id": 38495063,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400750-1015/Stay.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400750-1015/Stay.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=d1MRDa1D8P1c2ZYv3qY74A5l4jc%3D",
+            "short_name": "Stay.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:04.000Z",
+            "updated_at": "2026-07-17T11:40:04.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 4
+          },
+          "icon_id": 288,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468570/documents/Stay",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:20.000Z",
+          "updated_at": "2026-07-17T11:45:20.000Z"
+        },
+        {
+          "id": 702647484,
+          "tag": 702647484,
+          "operator_id": 23868,
+          "name": "City",
+          "file": {
+            "id": 38495064,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288401365-1003/City.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288401365-1003/City.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=KRUsgaCxbpU4vi3b%2Fyf8t%2FyrZ%2FQ%3D",
+            "short_name": "City.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:04.000Z",
+            "updated_at": "2026-07-17T11:40:04.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 5
+          },
+          "icon_id": 284,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468570/documents/City",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:20.000Z",
+          "updated_at": "2026-07-17T11:45:20.000Z"
+        }
+      ],
+      "image": {
+        "id": 702647508,
+        "tag": 702647508,
+        "operator_id": 23868,
+        "name": "DSC05686.JPG",
+        "file": {
+          "id": 38495191,
+          "operator_id": 23868,
+          "mime_type": "image/jpeg",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502385-9bf069c1-f5b1-460e-8388-afb485057b0c/DSC05686.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=9614fa434f416320e8dd0b036c0c9c93bbbdb97e6fef3b7182a8071ece11c7bf",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921502385-9bf069c1-f5b1-460e-8388-afb485057b0c/DSC05686.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D9614fa434f416320e8dd0b036c0c9c93bbbdb97e6fef3b7182a8071ece11c7bf?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=uIGIpwxdaumEXDD8%2ButhZ9QJVaQ%3D",
+          "short_name": "DSC05686.JPG.jpg",
+          "variants": {},
+          "meta": {},
+          "is_public": false,
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:21.000Z",
+          "updated_at": "2026-07-17T11:45:21.000Z"
+        },
+        "meta": {},
+        "is_folder": false,
+        "path": "/itineraries/19268450/details/146468570/background/DSC05686.JPG",
+        "created_by": 152479,
+        "created_at": "2026-07-17T11:45:21.000Z",
+        "updated_at": "2026-07-17T11:45:21.000Z"
+      },
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:20.000Z",
+      "updated_at": "2026-07-17T11:45:21.000Z"
+    },
+    {
+      "id": 146468576,
+      "itinerary_id": 19268450,
+      "tag": 146468576,
+      "position": 3,
+      "headline": "Thekkady",
+      "content_type": "text/html",
+      "content": "<p><strong>07:00</strong>   Nature walk in Periyar Wildlife Sanctuary</p>",
+      "meta": {
+        "day_number": 4
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647511,
+          "tag": 702647511,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495069,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399912-1002/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399912-1002/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=whdEXwN5EwtCW4dGTF8hNPoyF88%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 1
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468576/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:21.000Z",
+          "updated_at": "2026-07-17T11:45:21.000Z"
+        }
+      ],
+      "image": {
+        "id": 702647547,
+        "tag": 702647547,
+        "operator_id": 23868,
+        "name": "Periyar lake boating.JPG",
+        "file": {
+          "id": 38495196,
+          "operator_id": 23868,
+          "mime_type": "image/jpeg",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921428267-03534f1c-17fd-49fa-852e-f4652fc77dc1/Periyar%20lake%20boating.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=2fed10d9e0b72baab2c702d0a963474a01d11e1366038389f01c9f778816709a",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921428267-03534f1c-17fd-49fa-852e-f4652fc77dc1/Periyar%2520lake%2520boating.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D2fed10d9e0b72baab2c702d0a963474a01d11e1366038389f01c9f778816709a?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=OnfOd25%2FxqY%2F7iul624OYo%2FvBpk%3D",
+          "short_name": "Periyar%20lake%20boating.JPG.jpg",
+          "variants": {},
+          "meta": {},
+          "is_public": false,
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        },
+        "meta": {},
+        "is_folder": false,
+        "path": "/itineraries/19268450/details/146468576/background/Periyar lake boating.JPG",
+        "created_by": 152479,
+        "created_at": "2026-07-17T11:45:22.000Z",
+        "updated_at": "2026-07-17T11:45:22.000Z"
+      },
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:21.000Z",
+      "updated_at": "2026-07-17T11:45:22.000Z"
+    },
+    {
+      "id": 146468582,
+      "itinerary_id": 19268450,
+      "tag": 146468582,
+      "position": 4,
+      "headline": "Drive from Thekkady to Teekoy",
+      "content_type": "text/html",
+      "content": "<p><strong>09:00</strong>   Drive from Thekkady to Teekoy</p><p><strong>11:30</strong>   1 Twin and 1 Double Heritage Rooms</p><p><strong>17:00</strong>   Full day at leisure to explore Vanilla County</p>",
+      "meta": {
+        "day_number": 5
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647550,
+          "tag": 702647550,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495071,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399417-994/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399417-994/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=uQm0W0xvCW3EPup%2FDOfhF%2BHqo0o%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 3
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468582/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        },
+        {
+          "id": 702647551,
+          "tag": 702647551,
+          "operator_id": 23868,
+          "name": "Stay",
+          "file": {
+            "id": 38495073,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400257-1022/Stay.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400257-1022/Stay.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=%2BGyadb%2BJMlba41gp9UUUgtHV3uU%3D",
+            "short_name": "Stay.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 4
+          },
+          "icon_id": 288,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468582/documents/Stay",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        },
+        {
+          "id": 702647552,
+          "tag": 702647552,
+          "operator_id": 23868,
+          "name": "City",
+          "file": {
+            "id": 38495072,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400983-995/City.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400983-995/City.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=OKKisH1A9VETv7nPEHLg2OF0kx0%3D",
+            "short_name": "City.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 5
+          },
+          "icon_id": 284,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468582/documents/City",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        }
+      ],
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:22.000Z",
+      "updated_at": "2026-07-17T11:45:22.000Z"
+    },
+    {
+      "id": 146468583,
+      "itinerary_id": 19268450,
+      "tag": 146468583,
+      "position": 5,
+      "headline": "Teekoy",
+      "content_type": "text/html",
+      "content": "<p><strong>09:00</strong>   Full day at leisure to explore Vanilla County</p>",
+      "meta": {
+        "day_number": 6
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647556,
+          "tag": 702647556,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495074,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399593-1006/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399593-1006/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=sD%2Fomn6cJnKz5RSKMCGhgKCaINQ%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 1
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468583/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        }
+      ],
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:22.000Z",
+      "updated_at": "2026-07-17T11:45:22.000Z"
+    },
+    {
+      "id": 146468584,
+      "itinerary_id": 19268450,
+      "tag": 146468584,
+      "position": 6,
+      "headline": "Drive from Teekoy to Alleppey",
+      "content_type": "text/html",
+      "content": "<p><strong>09:00</strong>   Drive from Teekoy to Alleppey</p><p><strong>11:30</strong>   1 Double AC Heritage Room</p>",
+      "meta": {
+        "day_number": 7
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647559,
+          "tag": 702647559,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495076,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399583-1022/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399583-1022/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=7IhHcaND5vGcOqmPhj9RLZWwySs%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 3
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468584/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        },
+        {
+          "id": 702647560,
+          "tag": 702647560,
+          "operator_id": 23868,
+          "name": "Stay",
+          "file": {
+            "id": 38495077,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400094-1003/Stay.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400094-1003/Stay.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=EJ8ixxSiI3syeQ8fSnI1LwrJHqE%3D",
+            "short_name": "Stay.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 4
+          },
+          "icon_id": 288,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468584/documents/Stay",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        },
+        {
+          "id": 702647561,
+          "tag": 702647561,
+          "operator_id": 23868,
+          "name": "City",
+          "file": {
+            "id": 38495075,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400579-1008/City.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400579-1008/City.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=3lvwv04JOiQzi1VxV5tJqolph98%3D",
+            "short_name": "City.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:05.000Z",
+            "updated_at": "2026-07-17T11:40:05.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 5
+          },
+          "icon_id": 284,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468584/documents/City",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:22.000Z",
+          "updated_at": "2026-07-17T11:45:22.000Z"
+        }
+      ],
+      "image": {
+        "id": 702647565,
+        "tag": 702647565,
+        "operator_id": 23868,
+        "name": "DSCN5093.JPG",
+        "file": {
+          "id": 38495207,
+          "operator_id": 23868,
+          "mime_type": "image/jpeg",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783922777898-60ef4463-c60f-4a8d-aba3-85ba127b7277/DSCN5093.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=c37795ce9a390cc5a6dd2d1e2cc1d263d9a6ec441f4425c18077398266b8a593",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783922777898-60ef4463-c60f-4a8d-aba3-85ba127b7277/DSCN5093.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3Dc37795ce9a390cc5a6dd2d1e2cc1d263d9a6ec441f4425c18077398266b8a593?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=%2FJF9%2FfdCy0L0BZhIT6hffmb992Q%3D",
+          "short_name": "DSCN5093.JPG.jpg",
+          "variants": {},
+          "meta": {},
+          "is_public": false,
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:23.000Z",
+          "updated_at": "2026-07-17T11:45:23.000Z"
+        },
+        "meta": {},
+        "is_folder": false,
+        "path": "/itineraries/19268450/details/146468584/background/DSCN5093.JPG",
+        "created_by": 152479,
+        "created_at": "2026-07-17T11:45:23.000Z",
+        "updated_at": "2026-07-17T11:45:23.000Z"
+      },
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:22.000Z",
+      "updated_at": "2026-07-17T11:45:23.000Z"
+    },
+    {
+      "id": 146468585,
+      "itinerary_id": 19268450,
+      "tag": 146468585,
+      "position": 7,
+      "headline": "Drive from Alleppey to Mararikulam",
+      "content_type": "text/html",
+      "content": "<p><strong>09:00</strong>   Drive from Alleppey to Mararikulam</p><p><strong>10:00</strong>   1 Twin and 1 Double AC Garden Pool Villas</p><p><strong>19:00</strong>   Full day at leisure on the beach</p>",
+      "meta": {
+        "day_number": 8
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647568,
+          "tag": 702647568,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495080,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399916-993/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399916-993/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=l2jRPkTaOPP9Xj8SQZQYGSnouBo%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:06.000Z",
+            "updated_at": "2026-07-17T11:40:06.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 3
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468585/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:23.000Z",
+          "updated_at": "2026-07-17T11:45:23.000Z"
+        },
+        {
+          "id": 702647569,
+          "tag": 702647569,
+          "operator_id": 23868,
+          "name": "Stay",
+          "file": {
+            "id": 38495079,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400598-1002/Stay.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400598-1002/Stay.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=6tGFxm0HQOUhS7%2FqsdT44QQo0lg%3D",
+            "short_name": "Stay.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:06.000Z",
+            "updated_at": "2026-07-17T11:40:06.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 4
+          },
+          "icon_id": 288,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468585/documents/Stay",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:23.000Z",
+          "updated_at": "2026-07-17T11:45:23.000Z"
+        },
+        {
+          "id": 702647570,
+          "tag": 702647570,
+          "operator_id": 23868,
+          "name": "City",
+          "file": {
+            "id": 38495081,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288401098-994/City.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288401098-994/City.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=I0dzn6P8Y%2FwCF%2BlDSn7B%2Fz45o50%3D",
+            "short_name": "City.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:06.000Z",
+            "updated_at": "2026-07-17T11:40:06.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 5
+          },
+          "icon_id": 284,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468585/documents/City",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:23.000Z",
+          "updated_at": "2026-07-17T11:45:23.000Z"
+        }
+      ],
+      "image": {
+        "id": 702647573,
+        "tag": 702647573,
+        "operator_id": 23868,
+        "name": "Marari_036.jpg",
+        "file": {
+          "id": 38495212,
+          "operator_id": 23868,
+          "mime_type": "image/jpeg",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078452-96b13be5-b1ee-4396-91fb-0753d7c7d65c/Marari_036.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=e538f1a4fcede95bb07313fcad16350e2453e163cae38f2818e245d0a572b90b",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078452-96b13be5-b1ee-4396-91fb-0753d7c7d65c/Marari_036.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3De538f1a4fcede95bb07313fcad16350e2453e163cae38f2818e245d0a572b90b?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=j%2FVqC0L325s8ZVSLzh2ttTc3%2BBI%3D",
+          "short_name": "Marari_036.jpg",
+          "variants": {},
+          "meta": {},
+          "is_public": false,
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:24.000Z",
+          "updated_at": "2026-07-17T11:45:24.000Z"
+        },
+        "meta": {},
+        "is_folder": false,
+        "path": "/itineraries/19268450/details/146468585/background/Marari_036.jpg",
+        "created_by": 152479,
+        "created_at": "2026-07-17T11:45:24.000Z",
+        "updated_at": "2026-07-17T11:45:24.000Z"
+      },
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:23.000Z",
+      "updated_at": "2026-07-17T11:45:24.000Z"
+    },
+    {
+      "id": 146468586,
+      "itinerary_id": 19268450,
+      "tag": 146468586,
+      "position": 8,
+      "headline": "Mararikulam",
+      "content_type": "text/html",
+      "content": "<p><strong>11:00</strong>   Full day at leisure on the beach</p>",
+      "meta": {
+        "day_number": 9
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647576,
+          "tag": 702647576,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495083,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399596-1010/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399596-1010/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=MM3sMUZPn1I8JjP%2Bzoh8XKeVBBM%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:07.000Z",
+            "updated_at": "2026-07-17T11:40:07.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 1
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468586/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:24.000Z",
+          "updated_at": "2026-07-17T11:45:24.000Z"
+        }
+      ],
+      "image": {
+        "id": 702647578,
+        "tag": 702647578,
+        "operator_id": 23868,
+        "name": "Marari_007.jpg",
+        "file": {
+          "id": 38495214,
+          "operator_id": 23868,
+          "mime_type": "image/jpeg",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078451-5c24c4ed-c76e-4f96-b175-279af96f756d/Marari_007.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=4f4612bdfa39c18e5a472c2dbc59f2f64065065da18020ad503cfac8d7a0914d",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783923078451-5c24c4ed-c76e-4f96-b175-279af96f756d/Marari_007.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3D4f4612bdfa39c18e5a472c2dbc59f2f64065065da18020ad503cfac8d7a0914d?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=Kg%2BsFjNO6Z%2BiqvV1svNiRkrfnZE%3D",
+          "short_name": "Marari_007.jpg",
+          "variants": {},
+          "meta": {},
+          "is_public": false,
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:25.000Z",
+          "updated_at": "2026-07-17T11:45:25.000Z"
+        },
+        "meta": {},
+        "is_folder": false,
+        "path": "/itineraries/19268450/details/146468586/background/Marari_007.jpg",
+        "created_by": 152479,
+        "created_at": "2026-07-17T11:45:25.000Z",
+        "updated_at": "2026-07-17T11:45:25.000Z"
+      },
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:24.000Z",
+      "updated_at": "2026-07-17T11:45:25.000Z"
+    },
+    {
+      "id": 146468587,
+      "itinerary_id": 19268450,
+      "tag": 146468587,
+      "position": 9,
+      "headline": "Drive from Mararikulam to Kochi",
+      "content_type": "text/html",
+      "content": "<p><strong>09:00</strong>   Drive from Mararikulam to Kochi</p><p><strong>10:30</strong>   1 Twin and 1 Double AC Heritage Splendour Rooms</p><p><strong>18:00</strong>   Evening Kathakali dance performance</p>",
+      "meta": {
+        "day_number": 10
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647581,
+          "tag": 702647581,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495086,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399919-1009/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399919-1009/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=t2dkCmn4XgOzbFunn60QpwseZTw%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:07.000Z",
+            "updated_at": "2026-07-17T11:40:07.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 2
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468587/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:25.000Z",
+          "updated_at": "2026-07-17T11:45:25.000Z"
+        },
+        {
+          "id": 702647582,
+          "tag": 702647582,
+          "operator_id": 23868,
+          "name": "Stay",
+          "file": {
+            "id": 38495085,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288400590-1009/Stay.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288400590-1009/Stay.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=j325UNa2enmjy4mMFcOe1fF2zj8%3D",
+            "short_name": "Stay.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:07.000Z",
+            "updated_at": "2026-07-17T11:40:07.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 3
+          },
+          "icon_id": 288,
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468587/documents/Stay",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:25.000Z",
+          "updated_at": "2026-07-17T11:45:25.000Z"
+        }
+      ],
+      "image": {
+        "id": 702647584,
+        "tag": 702647584,
+        "operator_id": 23868,
+        "name": "DSCN3271.JPG",
+        "file": {
+          "id": 38495217,
+          "operator_id": 23868,
+          "mime_type": "image/jpeg",
+          "s3_url": "s3://vamoos-live/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921052356-c336b09b-993e-4143-9c4c-681e16431fc3/DSCN3271.JPG.jpg/args/X-Amz-Expires=1800/X-Amz-Date=20260717T114516Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=00300da8d1ed71c0000000001%2F20260717%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=bd935f4b7fd1544e5eb6abdddecb4afcf7b732ed028fbe35dd84480282251d3f",
+          "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/imsert-live.s3.eu-central-003.backblazeb2.com/uploads/019f4143-f147-759f-9c2b-a1f1cd0a77ca/2026/7/13/1783921052356-c336b09b-993e-4143-9c4c-681e16431fc3/DSCN3271.JPG.jpg/args/X-Amz-Expires%3D1800/X-Amz-Date%3D20260717T114516Z%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3D00300da8d1ed71c0000000001%252F20260717%252Feu-central-003%252Fs3%252Faws4_request%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Signature%3Dbd935f4b7fd1544e5eb6abdddecb4afcf7b732ed028fbe35dd84480282251d3f?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=dHb1A2sYCGoo1fxg5IoeDwtd8CI%3D",
+          "short_name": "DSCN3271.JPG.jpg",
+          "variants": {},
+          "meta": {},
+          "is_public": false,
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:25.000Z",
+          "updated_at": "2026-07-17T11:45:25.000Z"
+        },
+        "meta": {},
+        "is_folder": false,
+        "path": "/itineraries/19268450/details/146468587/background/DSCN3271.JPG",
+        "created_by": 152479,
+        "created_at": "2026-07-17T11:45:25.000Z",
+        "updated_at": "2026-07-17T11:45:25.000Z"
+      },
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:25.000Z",
+      "updated_at": "2026-07-17T11:45:25.000Z"
+    },
+    {
+      "id": 146468588,
+      "itinerary_id": 19268450,
+      "tag": 146468588,
+      "position": 10,
+      "headline": "Depart from Kochi",
+      "content_type": "text/html",
+      "content": "<p><strong>04:00</strong>   Departure transfer from your hotel to Cochin international airport</p>",
+      "meta": {
+        "day_number": 11
+      },
+      "details": {},
+      "documents": [
+        {
+          "id": 702647587,
+          "tag": 702647587,
+          "operator_id": 23868,
+          "name": "Services",
+          "file": {
+            "id": 38495088,
+            "operator_id": 23868,
+            "mime_type": "text/html",
+            "s3_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/17/1784288399426-996/Services.html",
+            "https_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/uploads/OdysseyIndia/2026/7/17/1784288399426-996/Services.html?AWSAccessKeyId=AKIAUQA6BKUKZH74RH4J&Expires=1784289925&Signature=nNwCICpV9bzOB9xFSPcgFxuaQ9o%3D",
+            "short_name": "Services.html",
+            "variants": {},
+            "meta": {},
+            "is_public": false,
+            "created_by": 152479,
+            "created_at": "2026-07-17T11:40:08.000Z",
+            "updated_at": "2026-07-17T11:40:08.000Z"
+          },
+          "meta": {
+            "source": "presto-sync",
+            "sequence": 1
+          },
+          "is_folder": false,
+          "path": "/itineraries/19268450/details/146468588/documents/Services",
+          "children": [],
+          "created_by": 152479,
+          "created_at": "2026-07-17T11:45:25.000Z",
+          "updated_at": "2026-07-17T11:45:25.000Z"
+        }
+      ],
+      "additional_images": [],
+      "created_at": "2026-07-17T11:45:25.000Z",
+      "updated_at": "2026-07-17T11:45:25.000Z"
     }
   ],
   "meta": {
@@ -1112,15 +1348,15 @@
     "daily_activities_days": 7
   },
   "is_active": true,
-  "created_at": "2026-07-14T09:19:31.000Z",
-  "updated_at": "2026-07-14T09:19:40.000Z",
+  "created_at": "2026-07-17T11:45:18.000Z",
+  "updated_at": "2026-07-17T11:45:25.000Z",
   "original_created_at": "2026-07-13T07:15:16.000Z",
-  "downloads": 9,
+  "downloads": 14,
   "is_public": false,
   "is_listed": false,
   "requested_listing_status": null,
   "routing": {
-    "master": "19230660",
+    "master": "19268450",
     "fallback": "$.master"
   },
   "preview_link_id": "3b31ad2f-9622-40a2-8ad7-ce7c51e4ebe3",
