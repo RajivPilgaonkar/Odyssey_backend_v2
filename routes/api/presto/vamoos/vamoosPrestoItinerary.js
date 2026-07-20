@@ -378,8 +378,13 @@ function buildCarouselHtml(imageUrls) {
 
 // Builds one <table> (blank/Description header) from a f_GetCardServiceDescRows(QuoLines_id)
 // result set, matching the shape of the manually-built "Services" documents, plus a trailing
-// Contact/Phone row (click-to-dial) when the activity has a phone number - omitted entirely if
-// blank/null, per that day's own Phone column from p_Rpt_QuoTourCardFormat.
+// Contact row when the activity has a contact name and/or phone number - per that day's own
+// Contact/Phone columns from p_Rpt_QuoTourCardFormat. Contact (the person's name) shows on its own
+// line above the phone (click-to-dial), in the same cell - two separate <p> tags rather than <br>,
+// since the app's content renderer isn't a full HTML parser (see buildServiceSummaryByDayNo in the
+// vamoosPrestoItinerary.js caller for the same reasoning). Falls back to showing just the phone
+// number alone, exactly as before, when there's no contact name - and the row is omitted entirely
+// only when neither is present.
 // f_GetCardServiceDescRows represents a yes/no field (e.g. "Guide") as a literal ServiceDesc of
 // "1" rather than an actual word - shown as a green checkmark instead of a bare digit, which
 // reads as a typo/leftover data rather than a deliberate yes.
@@ -387,14 +392,21 @@ function formatServiceDescValue(value) {
   return (value || '').trim() === '1' ? '<span class="check-mark">&#10003;</span>' : value;
 }
 
-function buildServiceDescTable(rows, descriptionLabel, phone) {
+function buildServiceDescTable(rows, descriptionLabel, contact, phone) {
   const body = rows
     .map((row) => `<tr><td><p>${row.Timings}</p></td><td><p>${formatServiceDescValue(row.ServiceDesc)}</p></td></tr>`)
     .join('');
 
-  const contactRow = (phone && phone.trim())
-    ? `<tr><td><p>Contact</p></td><td><p>${buildPhoneLink(phone)}</p></td></tr>`
-    : '';
+  const hasContact = contact && contact.trim();
+  const hasPhone = phone && phone.trim();
+  const phoneLine = hasPhone ? `<p>${buildPhoneLink(phone)}</p>` : '';
+
+  let contactRow = '';
+  if (hasContact) {
+    contactRow = `<tr><td><p>Contact</p></td><td><p>${contact}</p>${phoneLine}</td></tr>`;
+  } else if (hasPhone) {
+    contactRow = `<tr><td><p>Contact</p></td><td>${phoneLine}</td></tr>`;
+  }
 
   return `<table class="activity-table"><thead><tr><th><p></p></th><th><p>${descriptionLabel}</p></th></tr></thead><tbody>${body}${contactRow}</tbody></table>`;
 }
@@ -424,7 +436,7 @@ async function buildServicesDocument(dayRows, getCardServiceDescRows, headers) {
 
   const tables = await Promise.all(activityRows.map(async (row) => {
     const descRows = await getCardServiceDescRows(row.QuoLines_id);
-    return buildServiceDescTable(descRows, getServiceDescLabel(row.TrsType, row.ServiceDesc), row.Phone);
+    return buildServiceDescTable(descRows, getServiceDescLabel(row.TrsType, row.ServiceDesc), row.Contact, row.Phone);
   }));
 
   const html = wrapDocumentHtml('Services', tables.join(''), { dark: true });
