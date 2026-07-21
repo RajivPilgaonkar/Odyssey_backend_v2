@@ -1,8 +1,15 @@
 module.exports = (sequelize) => {
 
+  // QuoPrintDays.SrNo doesn't reliably start at 1 for every QuoPrint (confirmed: QuoPrint_id 7982
+  // starts at SrNo=2, with no row 1 at all) - hardcoding "AND qpd.SrNo = 1" against a LEFT JOIN
+  // silently behaves like an INNER JOIN when nothing matches, so a QuoPrint whose days don't start
+  // at 1 returned zero rows entirely (crashing the caller reading .Quotations_id off undefined)
+  // rather than falling back to whatever the actual first day is. TOP 1 + ORDER BY picks the
+  // lowest SrNo instead of assuming it's 1, and still returns a (mostly-null) row via the LEFT
+  // JOIN even if a QuoPrint has no QuoPrintDays rows at all.
   async function getQuoPrintData(quoPrint_id) {
     const [rows] = await sequelize.query(
-      "SELECT qp.QuoPrint_id, qp.Quotations_id, qp.PaxInfo, c.city AS StartCity, " + 
+      "SELECT TOP 1 qp.QuoPrint_id, qp.Quotations_id, qp.PaxInfo, c.city AS StartCity, " +
         "q.StartDate, q.EndDate, c2.country, c.Latitude, c.Longitude, q.Reference " +
         "FROM QuoPrint qp " +
 	      "LEFT JOIN QuoPrintDays qpd ON qp.QuoPrint_id = qpd.QuoPrint_id " +
@@ -11,7 +18,7 @@ module.exports = (sequelize) => {
 	      "LEFT JOIN Quotations q ON q.Quotations_id = qc.Quotations_id " +
 	      "LEFT JOIN Countries c2 ON c2.countries_id = c.countries_id " +
         "WHERE qp.QuoPrint_id = " + Number(quoPrint_id) + " " +
-        "AND qpd.SrNo = 1",{});
+        "ORDER BY qpd.SrNo",{});
 
     return rows[0];
   }
@@ -90,6 +97,15 @@ module.exports = (sequelize) => {
     return rows[0];
   }
 
+  async function getServiceDescription(services_id) {
+    const [rows] = await sequelize.query(
+      "SELECT s.service, s.writeup " +
+        "FROM services s " +
+        "WHERE s.services_id = " + Number(services_id),{});
+
+    return rows[0];
+  }
+
   /*=== gathers all the fields needed for a Vamoos itinerary from the various Presto tables ===*/
   async function getVamoosItineraryData(quoPrint_id) {
     const quoPrint = await getQuoPrintData(quoPrint_id);
@@ -119,6 +135,7 @@ module.exports = (sequelize) => {
     getCardServiceDescRows,
     getHotelDescription,
     getCityDescription,
+    getServiceDescription,
     getVamoosItineraryData
   };
 

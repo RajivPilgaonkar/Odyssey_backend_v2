@@ -91,21 +91,82 @@ async function getImsertApiKey(headers) {
 // both ended up with the same recycled Teekoy countryside photo under different file IDs.
 const LOCAL_FALLBACK_NAME_PATTERN = /^city_\d+_large_\d+\.jpg$/i;
 
+// Imsert's search results aren't limited to this operator's own uploads - it also indexes other
+// properties' own registered Vamoos "Stay" listings (see findRegisteredStay below), each under
+// its own S3 "uploads/<PropertyName>/..." folder, and its semantic matching can loosely match a
+// totally unrelated property's photo to the search term when it has nothing genuine to offer -
+// confirmed happening for "Delhi Andaz Delhi", which returned a photo from
+// "uploads/ColonelsRetreat/..." (an unrelated hotel). Rejects a result whose folder is a specific
+// OTHER property's name that doesn't relate to the term at all; the operator's own generic
+// uploads/webcache folder (keys.vamoosOperatorCode) is never rejected, since that's the shared
+// library, not a property-specific one.
+function looksLikeWrongProperty(imageUrl, term) {
+  const match = /\/(?:uploads|webcache)\/([^/]+)\//.exec(imageUrl);
+  if (!match) return false;
+
+  const folder = match[1];
+  if (folder === keys.vamoosOperatorCode) return false;
+
+  const normalizedFolder = normalizeForMatch(folder);
+  const normalizedTerm = normalizeForMatch(term);
+  return !normalizedTerm.includes(normalizedFolder) && !normalizedFolder.includes(normalizedTerm);
+}
+
+// A city/opening-screen cover should read as a generic scenic or landmark shot, not a specific
+// hotel's own room photo - confirmed happening for Quotations_id 9266's "Delhi" cover, which
+// matched "Delhi - Colonel's Retreat 1 - Standard Room 1 - small - WEB" purely because that
+// hotel's own descriptive filename happens to mention the city. The same word is exactly right in
+// a hotel's own Stay carousel (that IS its room), so this is only applied for the cover search,
+// not baked into findImsertImages/findLibraryImage generally.
+function looksLikeAccommodationPhoto(name) {
+  return /\b(room|suite)\b/i.test(name);
+}
+
 // Looks up photos for a search term via Imsert's own search API (separate from Vamoos), skipping
 // any already claimed by another card (Imsert indexes the same underlying operator S3 storage
-// the Library search covers, plus more, so the same photo can surface via either path), and any
+// the Library search covers, plus more, so the same photo can surface via either path), any
 // result that's actually one of our own recycled local-fallback uploads rather than a genuine
-// match. Fetches a small buffer beyond `count` to have room to skip these and still return enough
-// results.
-async function findImsertImages(term, count, imsertApiKey, usedImageIds) {
+// match, and any result that looks like it belongs to an unrelated property (see
+// looksLikeWrongProperty above). When propertyName is given, ALSO requires the result's own name
+// to actually contain that name (normalized) - a positive-match requirement, stronger than trying
+// to blacklist known-bad patterns one at a time, since Imsert's semantic matching can be wrong in
+// ways no fixed blacklist anticipates. Confirmed live, for a search for "Delhi Andaz Delhi": a
+// blacklist alone let through a webcache-cached Unsplash photo with a garbled/URL-fragment name,
+// and a *different* hotel's own uploaded photo ("Delhi - Colonel's Retreat...") sitting in the
+// operator's own shared uploads folder rather than a separate per-property folder, so
+// looksLikeWrongProperty's folder check couldn't catch it either - this positive-match check
+// rejects both, since neither name contains "Andaz Delhi". Leave propertyName unset for a general,
+// broader-than-one-property search (e.g. a City document's own carousel), where matching just the
+// search term (not a single named property) is exactly what's wanted. Pass preferGenericPhotos for
+// an opening-screen cover search: tries Imsert's "webcache" tier (real Unsplash-sourced scenery)
+// first and skips anything that looks like a hotel room, since the operator's own uploads folder is
+// a mix of hotel photos and logistics icons with no reliable way to tell "generic city shot" apart
+// otherwise (confirmed - the Library's entire 2-image collection includes the very Colonel's
+// Retreat room photo above). Fetches a small buffer beyond `count` to have room to skip rejected
+// results and still return enough.
+async function findImsertImages(term, count, imsertApiKey, usedImageIds, propertyName, { preferGenericPhotos = false } = {}) {
+  // a cover search needs a much wider page to have a realistic chance of a webcache/Unsplash
+  // result even being in the response to prefer - confirmed live for "Delhi": the one genuine
+  // landmark photo (Unsplash India Gate) ranked #9, well past the usual count+5 buffer other
+  // searches use, since Imsert ranks the operator's own hotel/logistics uploads just as highly
+  const perPage = preferGenericPhotos ? Math.max(count + 5, 25) : count + 5;
   const { data } = await axios.post('https://live.imsert.com/search',
-    { text: { high: { text: term } }, perPage: count + 5, page: 1 },
+    { text: { high: { text: term } }, perPage, page: 1 },
     { headers: { Authorization: `Bearer ${imsertApiKey}`, 'Content-Type': 'application/json' } });
 
+  let candidates = data.results || [];
+  if (preferGenericPhotos) {
+    candidates = [...candidates].sort((a, b) =>
+      Number(/\/webcache\//.test(b.image.imageUrl)) - Number(/\/webcache\//.test(a.image.imageUrl)));
+  }
+
   const results = [];
-  for (const result of (data.results || [])) {
+  for (const result of candidates) {
     const name = result.image.name || term;
     if (LOCAL_FALLBACK_NAME_PATTERN.test(name)) continue;
+    if (looksLikeWrongProperty(result.image.imageUrl, term)) continue;
+    if (propertyName && !normalizeForMatch(name).includes(normalizeForMatch(propertyName))) continue;
+    if (preferGenericPhotos && looksLikeAccommodationPhoto(name)) continue;
 
     const key = `imsert:${result.image.imageUrl.split('?')[0]}`;
     if (usedImageIds.has(key)) continue;
@@ -156,29 +217,36 @@ function findLibraryImage(libraryImages, term, usedImageIds) {
   return { file_id: match.file.id, name: match.name };
 }
 
-// Finds up to `count` embeddable photo URLs for a hotel carousel (Library first, then Imsert AI
-// search to fill any remainder), sharing the same usedImageIds set as every other image lookup so
-// a photo already claimed elsewhere (a card cover, a different hotel's carousel, ...) isn't reused
-// here too. Unlike findLibraryImage/findImsertImages - which return Vamoos file_id_upload_object/
-// file_url shapes for Vamoos' own image/background fields - this returns plain HTTPS URLs, since
-// these go into an <img src> inside a document we're building ourselves, not a Vamoos image slot.
-async function findHotelCarouselImages(term, count, libraryImages, imsertApiKey, usedImageIds) {
+// Finds up to `count` embeddable photo URLs for a hotel/city carousel (Library first, then Imsert
+// AI search to fill any remainder), sharing the same usedImageIds set as every other image lookup
+// so a photo already claimed elsewhere (a card cover, a different hotel's carousel, ...) isn't
+// reused here too. Unlike findLibraryImage/findImsertImages - which return Vamoos
+// file_id_upload_object/file_url shapes for Vamoos' own image/background fields - this returns
+// plain HTTPS URLs, since these go into an <img src> inside a document we're building ourselves,
+// not a Vamoos image slot. Pass propertyName (the hotel's own bare name, e.g. "Andaz Delhi") for a
+// specific hotel's own Stay carousel, so both Library and Imsert results are required to actually
+// name that hotel rather than just loosely relate to the broader city+hotel search term (see
+// findImsertImages above for why that positive match matters); leave it unset for a City
+// document's carousel, where matching the broader term is exactly what's wanted. `term` is still
+// used as the actual search text either way - only which results count as an acceptable match
+// narrows when propertyName is given.
+async function findHotelCarouselImages(term, count, libraryImages, imsertApiKey, usedImageIds, propertyName) {
   if (!term) return [];
 
-  const normalizedTerm = normalizeForMatch(term);
+  const normalizedMatchTerm = normalizeForMatch(propertyName || term);
   const urls = [];
 
   for (const item of libraryImages) {
     if (urls.length >= count) break;
     const key = `library:${item.file.id}`;
-    if (usedImageIds.has(key) || !normalizeForMatch(item.name).includes(normalizedTerm)) continue;
+    if (usedImageIds.has(key) || !normalizeForMatch(item.name).includes(normalizedMatchTerm)) continue;
 
     usedImageIds.add(key);
     urls.push(item.file.https_url);
   }
 
   if (urls.length < count) {
-    const imsertMatches = await findImsertImages(term, count - urls.length, imsertApiKey, usedImageIds);
+    const imsertMatches = await findImsertImages(term, count - urls.length, imsertApiKey, usedImageIds, propertyName);
     urls.push(...imsertMatches.map((match) => match.file_url));
   }
 
@@ -456,22 +524,19 @@ async function buildServicesDocument(dayRows, getCardServiceDescRows, headers) {
 // shown, bold/underlined, as the first line of the body). The Contact/Phone line reuses the same
 // day row's Phone column (same source as the Services document's Contact row) rather than a
 // separate hotel-specific number, formatted with the anchor attributes odyssey123's phone links
-// use. Below that, up to 2 photos found via the hotel's own ImageHint (e.g. "Kochi The Tower
-// House"), in a swipeable carousel - omitted entirely if the search comes up empty. Returns null
-// if the day has no hotel, or the hotel has no description on file.
-async function buildStayDocument(dayRows, getHotelDescription, headers, libraryImages, imsertApiKey, usedImageIds) {
-  const hotelRow = dayRows.find((row) => row.HotelAddressbook_id);
-  if (!hotelRow) return null;
-
-  const hotel = await getHotelDescription(hotelRow.HotelAddressbook_id);
-  if (!hotel || !hotel.description) return null;
+// use. Below that, up to 2 photos in a swipeable carousel - omitted entirely if none were found.
+// hotelRow/hotel/imageUrls are all resolved ahead of time by the sequential image-claiming
+// pre-pass in the route handler below (see its comment for why that's sequential rather than
+// running these lookups here in parallel with every other card). Returns null if the day has no
+// hotel, or the hotel has no description on file.
+async function buildStayDocument(hotelRow, hotel, imageUrls, headers) {
+  if (!hotelRow || !hotel || !hotel.description) return null;
 
   const contactParagraph = (hotelRow.Phone && hotelRow.Phone.trim())
     ? `<p></p><p><strong>Contact:</strong> ${buildPhoneLink(hotelRow.Phone)}</p>`
     : '';
 
-  const imageUrls = await findHotelCarouselImages(hotelRow.ImageHint, 2, libraryImages, imsertApiKey, usedImageIds);
-  const imagesHtml = buildCarouselHtml(imageUrls);
+  const imagesHtml = buildCarouselHtml(imageUrls || []);
 
   const body = `<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup>` +
     `<tbody><tr><td colspan="1" rowspan="1">` +
@@ -492,23 +557,19 @@ async function buildStayDocument(dayRows, getHotelDescription, headers, libraryI
 
 // Builds a card's "City" document - identical in structure to buildStayDocument above, just
 // sourced from cities/writeup instead of addressbook/hotels, keyed off Cities_id instead of
-// HotelAddressbook_id, and searching for 3 photos instead of 2. icon_id 284 is the city/location
-// icon (studied against itinerary odyssey123's "Delhi" document, same day as its "Haveli Hauz
-// Khas Delhi" hotel document). Returns null if the day has no city, or the city has no writeup
-// on file.
-async function buildCityDocument(dayRows, getCityDescription, headers, libraryImages, imsertApiKey, usedImageIds) {
-  const cityRow = dayRows.find((row) => row.Cities_id);
-  if (!cityRow) return null;
-
-  const city = await getCityDescription(cityRow.Cities_id);
-  if (!city || !city.writeup) return null;
+// HotelAddressbook_id. icon_id 284 is the city/location icon (studied against itinerary
+// odyssey123's "Delhi" document, same day as its "Haveli Hauz Khas Delhi" hotel document).
+// cityRow/city/imageUrls are all resolved ahead of time by the sequential image-claiming pre-pass
+// in the route handler below (see its comment for why). Returns null if the day has no city, or
+// the city has no writeup on file.
+async function buildCityDocument(cityRow, city, imageUrls, headers) {
+  if (!cityRow || !city || !city.writeup) return null;
 
   const contactParagraph = (cityRow.Phone && cityRow.Phone.trim())
     ? `<p></p><p><strong>Contact:</strong> ${buildPhoneLink(cityRow.Phone)}</p>`
     : '';
 
-  const imageUrls = await findHotelCarouselImages(cityRow.ImageHint, 3, libraryImages, imsertApiKey, usedImageIds);
-  const imagesHtml = buildCarouselHtml(imageUrls);
+  const imagesHtml = buildCarouselHtml(imageUrls || []);
 
   const body = `<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup>` +
     `<tbody><tr><td colspan="1" rowspan="1">` +
@@ -522,6 +583,27 @@ async function buildCityDocument(dayRows, getCityDescription, headers, libraryIm
   const uploaded = await uploadBytes(Buffer.from(html), 'City.html', 'text/html', headers);
 
   return { ...uploaded, name: 'City', icon_id: 284, meta: { source: SYNC_SOURCE } };
+}
+
+// Builds a card's Sightseeing document - same single-column layout as Stay/City, sourced from
+// services.writeup (keyed off the row's own Services_id) instead of a hotel/city description.
+// docName is "SS" for a day with a single sightseeing activity, or "SS1"/"SS2"/... when there's
+// more than one (the caller numbers them, since that depends on the whole day's rows, not just
+// this one). Text only for now, same as Stay/City were before their own photo carousels were
+// wired up - no images yet. Returns null if the service has no writeup on file.
+async function buildSightseeingDocument(row, service, docName, headers) {
+  if (!service || !service.writeup) return null;
+
+  const body = `<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup>` +
+    `<tbody><tr><td colspan="1" rowspan="1">` +
+    `<p><strong><u>${row.ServiceDesc}</u></strong></p>` +
+    `<p>${service.writeup}</p>` +
+    `</td></tr></tbody></table>`;
+
+  const html = wrapDocumentHtml(docName, body, { dark: true });
+  const uploaded = await uploadBytes(Buffer.from(html), `${docName}.html`, 'text/html', headers);
+
+  return { ...uploaded, name: docName, meta: { source: SYNC_SOURCE } };
 }
 
 // Checks whether the operator's own local city photo library has a numbered shot for this
@@ -1094,7 +1176,9 @@ module.exports = (app,db,sequelize) => {
       });
 
       const coverCity = findCityWithMostNights(vamoosData.tourCards, cityByQuoLinesId);
-      const backgroundImages = coverCity ? await findImsertImages(coverCity, 3, imsertApiKey, usedImageIds) : [];
+      const backgroundImages = coverCity
+        ? await findImsertImages(coverCity, 3, imsertApiKey, usedImageIds, undefined, { preferGenericPhotos: true })
+        : [];
 
       // attach the same "Hotel/Agent services" PDF the /reports/presto/tourHotelsAgents route
       // produces, as a Document on the itinerary - best-effort, so a PDF failure doesn't block
@@ -1123,7 +1207,8 @@ module.exports = (app,db,sequelize) => {
         field3: vamoosData.quoPrint.PaxInfo || '--',
         client_reference: vamoosData.quoPrint.Reference || '',
         background: req.body.background
-          || (coverCity && findLibraryImage(libraryImages, coverCity, usedImageIds))
+          || (coverCity && findLibraryImage(
+                libraryImages.filter((item) => !looksLikeAccommodationPhoto(item.name)), coverCity, usedImageIds))
           || backgroundImages[0],
         locations: req.body.locations || hotelLocations,
         ...(servicesDocument ? { documents: { all: [{ name: 'Documents', children: [servicesDocument] }] } } : {}),
@@ -1139,12 +1224,60 @@ module.exports = (app,db,sequelize) => {
 
           const cardNosInOrder = Object.keys(rowsByCardNo).map(Number).sort((a, b) => a - b);
 
+          // Phase 0: claims every image (card covers, Stay/City carousels) sequentially, in day
+          // order, BEFORE any of the per-card work in Phase 1 below runs in parallel. Two
+          // different days can want the same photo (e.g. a hotel visited on both an early and a
+          // later day) - each claim checks and marks the shared usedImageIds set so the same
+          // photo is never used twice, and doing that check-and-mark sequentially is what makes
+          // the day that "wins" a contested photo deterministic (always the earlier day) rather
+          // than a race between whichever card's Imsert network call happens to resolve first.
+          // Confirmed live (Quotations_id 9266): Day 1 and Day 9 both stay at Andaz Delhi, and
+          // running these same claims inside a parallel per-card loop left Day 1's Stay carousel
+          // empty because Day 9's own claim - running concurrently, not after - won the race for
+          // the same photos. hotelRow/cityRow and their descriptions are resolved here too (not
+          // just inside buildStayDocument/buildCityDocument) so a day whose hotel/city has no
+          // description on file never claims carousel photos it'll then throw away.
+          const imageClaimsByCardNo = {};
+          for (const cardNo of cardNosInOrder) {
+            const rows = rowsByCardNo[cardNo].sort((a, b) => a.SubCardNo - b.SubCardNo);
+            const firstRow = rows[0];
+
+            const image = firstRow.ImageHint
+              ? findLibraryImage(libraryImages, firstRow.ImageHint, usedImageIds)
+                || (await findImsertImages(firstRow.ImageHint, 1, imsertApiKey, usedImageIds))[0]
+                || null
+              : null;
+
+            const hotelRow = rows.find((row) => row.HotelAddressbook_id) || null;
+            let hotel = null;
+            let stayImages = [];
+            if (hotelRow) {
+              hotel = await dbQueries.getHotelDescription(hotelRow.HotelAddressbook_id);
+              if (hotel && hotel.description) {
+                stayImages = await findHotelCarouselImages(hotelRow.ImageHint, 2, libraryImages, imsertApiKey, usedImageIds, hotelRow.Hotel);
+              }
+            }
+
+            const cityRow = rows.find((row) => row.Cities_id) || null;
+            let city = null;
+            let cityImages = [];
+            if (cityRow) {
+              city = await dbQueries.getCityDescription(cityRow.Cities_id);
+              if (city && city.writeup) {
+                cityImages = await findHotelCarouselImages(cityRow.ImageHint, 3, libraryImages, imsertApiKey, usedImageIds);
+              }
+            }
+
+            imageClaimsByCardNo[cardNo] = { image, hotelRow, hotel, stayImages, cityRow, city, cityImages };
+          }
+
           // Phase 1: build everything for each card except the final Additional Information
           // content string, which needs every card's draft summary rewritten together in one
           // batch (see rewriteDaySummariesWithLLM above) rather than one at a time.
           const cardsData = await Promise.all(cardNosInOrder.map(async (cardNo, index) => {
             const rows = rowsByCardNo[cardNo].sort((a, b) => a.SubCardNo - b.SubCardNo);
             const firstRow = rows[0];
+            const claims = imageClaimsByCardNo[cardNo];
 
             // A multi-day "Days At Leisure" gap card (see p_Rpt_QuoTourCardFormat's own gap-fill
             // logic) is inserted as a single CardNo covering several real days at once - the
@@ -1157,12 +1290,6 @@ module.exports = (app,db,sequelize) => {
             const nextCardNo = cardNosInOrder[index + 1];
             const lastDayNo = nextCardNo && nextCardNo - cardNo > 1 ? nextCardNo - 1 : cardNo;
             const headline = lastDayNo > cardNo ? `Days ${cardNo}-${lastDayNo} At Leisure` : firstRow.Title;
-
-            const image = firstRow.ImageHint
-              ? findLibraryImage(libraryImages, firstRow.ImageHint, usedImageIds)
-                || (await findImsertImages(firstRow.ImageHint, 1, imsertApiKey, usedImageIds))[0]
-                || null
-              : null;
 
             const draftSummary = await buildDaySummarySentence(rows, dbQueries.getHotelDescription);
 
@@ -1177,24 +1304,51 @@ module.exports = (app,db,sequelize) => {
 
             let stayDoc = null;
             try {
-              stayDoc = await buildStayDocument(rows, dbQueries.getHotelDescription, headers, libraryImages, imsertApiKey, usedImageIds);
+              stayDoc = await buildStayDocument(claims.hotelRow, claims.hotel, claims.stayImages, headers);
             } catch (err) {
               console.error(`[vamoosAPI] failed to build stay document for CardNo ${cardNo}`, err);
             }
 
             let cityDoc = null;
             try {
-              cityDoc = await buildCityDocument(rows, dbQueries.getCityDescription, headers, libraryImages, imsertApiKey, usedImageIds);
+              cityDoc = await buildCityDocument(claims.cityRow, claims.city, claims.cityImages, headers);
             } catch (err) {
               console.error(`[vamoosAPI] failed to build city document for CardNo ${cardNo}`, err);
             }
 
+            // one Sightseeing document per TrsType=3 row that has a Services_id - "Excursion" for
+            // a day with just one, "Excursion(1)"/"Excursion(2)"/... when there's more than one -
+            // paired with that row's own SubCardNo so it can be placed chronologically below
+            let sightseeingEntries = [];
+            try {
+              const sightseeingRows = rows.filter((row) => row.TrsType === 3 && row.Services_id);
+              const built = await Promise.all(sightseeingRows.map(async (row, index) => {
+                const docName = sightseeingRows.length > 1 ? `Excursion(${index + 1})` : 'Excursion';
+                const service = await dbQueries.getServiceDescription(row.Services_id);
+                const doc = await buildSightseeingDocument(row, service, docName, headers);
+                return { subCardNo: row.SubCardNo, doc };
+              }));
+              sightseeingEntries = built.filter((entry) => entry.doc);
+            } catch (err) {
+              console.error(`[vamoosAPI] failed to build sightseeing documents for CardNo ${cardNo}`, err);
+            }
+
+            // Stay/City/Excursion are ordered to match the row order they came from in the stored
+            // procedure (e.g. a hotel arrived at between two sightseeing stops sits between their
+            // two Excursion documents), by the SubCardNo of whichever row each one came from.
+            // Services stays first regardless - it's a whole-day summary, not tied to one row.
+            const chronologicalDocs = [
+              ...(claims.hotelRow && stayDoc ? [{ subCardNo: claims.hotelRow.SubCardNo, doc: stayDoc }] : []),
+              ...(claims.cityRow && cityDoc ? [{ subCardNo: claims.cityRow.SubCardNo, doc: cityDoc }] : []),
+              ...sightseeingEntries
+            ].sort((a, b) => a.subCardNo - b.subCardNo).map((entry) => entry.doc);
+
             // re-append whatever was manually attached to this day's card last time, so
             // regenerating from Presto doesn't wipe it out
-            const documents = [servicesDoc, stayDoc, cityDoc].filter(Boolean)
+            const documents = [servicesDoc, ...chronologicalDocs].filter(Boolean)
               .concat(manualDocumentsByDayNo[cardNo] || []);
 
-            return { cardNo, headline, rows, draftSummary, image, documents };
+            return { cardNo, headline, rows, draftSummary, image: claims.image, documents };
           }));
 
           // Phase 2: one Claude call for the whole itinerary's worth of drafts (see
