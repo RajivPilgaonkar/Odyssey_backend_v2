@@ -99,7 +99,7 @@ module.exports = (sequelize) => {
 
   async function getServiceDescription(services_id) {
     const [rows] = await sequelize.query(
-      "SELECT s.service, s.writeup " +
+      "SELECT s.service, s.description, s.writeup " +
         "FROM services s " +
         "WHERE s.services_id = " + Number(services_id),{});
 

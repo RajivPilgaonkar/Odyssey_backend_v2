@@ -1,0 +1,534 @@
+{
+  "departure_date": "2026-11-06",
+  "return_date": "2026-11-19",
+  "timezone": "Asia/Calcutta",
+  "field1": "India, 2026",
+  "field3": "Kevan & Julia Doyle",
+  "client_reference": "657",
+  "background": {
+    "file_url": "https://vamoos-live.s3.eu-west-1.amazonaws.com/webcache/OdysseyIndia/https/images.unsplash.com/photo-1587474260584-136574528ed5/args/ixid%3DM3w1NzU2MzR8MHwxfHNlYXJjaHwxfHxEZWxoaXxlbnwwfDB8MHx8MTc4MzgzNjA2OHww/ixlib%3Drb-4.1.0%26w%3D4096%26h%3D4096%26fit%3Dmax%26fmt%3Djpg%26auto%3Dcompress?X-Amz-Expires=1800&X-Amz-Date=20260722T071040Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAS252V6GL4W35HEVO%2F20260722%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=462b1cbffb956d346334903b5c6201f7897faa2ebb9400960cd52d517aba5d76",
+    "name": "ixlib%3Drb-4.1.0%26w%3D4096%26h%3D4096%26fit%3Dmax%26fmt%3Djpg%26auto%3Dcompress"
+  },
+  "locations": [
+    {
+      "internal_id": 1,
+      "name": "Andaz Delhi",
+      "latitude": 28.613333333,
+      "longitude": 77.209166667,
+      "description": "Asset No. 1\r\nAerocity"
+    },
+    {
+      "internal_id": 2,
+      "name": "Raas Jodhpur",
+      "latitude": 26.297222222,
+      "longitude": 73.018611111,
+      "description": "Tunvarji Ka Jhalara\r\nMakrana Mohalla — Jitendra Singh (82399 26000)",
+      "vamoos_id": 729779
+    },
+    {
+      "internal_id": 3,
+      "name": "Rawla Narlai",
+      "latitude": 25.316666667,
+      "longitude": 73.535833333,
+      "description": "Village Narlai\r\nNear Desuri\r\nDist.Pali — Suraj Panwar (9950810813)",
+      "vamoos_id": 2352325
+    },
+    {
+      "internal_id": 4,
+      "name": "Laalee ",
+      "latitude": 26.925555556,
+      "longitude": 75.823611111,
+      "description": "22, Gopalbari, Lane No. 1 \n"
+    },
+    {
+      "internal_id": 5,
+      "name": "Waghoba Eco Lodge",
+      "latitude": 20.233333333,
+      "longitude": 79.424722222,
+      "description": "Village Wadala Tukum\r\nTehsil Bhadravati\r\nDist Chandrapur",
+      "vamoos_id": 1055033
+    },
+    {
+      "internal_id": 6,
+      "name": "The Imperial Hotel",
+      "latitude": 28.613333333,
+      "longitude": 77.209166667,
+      "description": "Janpath — Shikha Yadav (9811210620)",
+      "vamoos_id": 2549312
+    },
+    {
+      "internal_id": 7,
+      "name": "Shahpura Bagh",
+      "latitude": 25.623055556,
+      "longitude": 74.9175,
+      "description": "Darbar Ki Kothi\r\nDistrict Bhilwara — Maya Singh (98281 22013)",
+      "vamoos_id": 1018369
+    }
+  ],
+  "documents": {
+    "all": [
+      {
+        "name": "Documents",
+        "children": [
+          {
+            "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704240595-1022/Hotel and Agent Services.pdf",
+            "name": "Hotel and Agent Services.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "details": [
+    {
+      "headline": "Stay at Andaz Delhi",
+      "content": "<p>Arrive in Delhi and settle into the vibrant Andaz Delhi.</p><p>Stay: Andaz Delhi</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 1
+      },
+      "image": {
+        "file_id": 38539531,
+        "name": "Delhi 1"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244515-52963/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245703-45420/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704246908-45070/City.html",
+          "name": "City",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Stay at Raas Jodhpur",
+      "content": "<p>A seamless transfer from Delhi International airport delivers you to your hotel, followed by a domestic flight on Air India AI 475 to the legendary desert kingdom of Jodhpur, where Raas Jodhpur awaits.</p><p><strong>01:15</strong>   Arrival transfer from Delhi International airport to your hotel</p><p><strong>09:55</strong>   Departure transfer from your hotel to Delhi Domestic airport</p><p><strong>12:55</strong>   Flight Air India AI 475 from Delhi to Jodhpur</p><p><strong>14:20</strong>   Arrival transfer from Jodhpur airport to your hotel</p><p>Stay: Raas Jodhpur</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 2
+      },
+      "image": {
+        "file_id": 38540512,
+        "name": "Jodhpur 1"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244513-45031/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704247069-1009/City.html",
+          "name": "City",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245632-1022/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Drive from Jodhpur to Narlai",
+      "content": "<p>Morning drive from Jodhpur to Narlai. Visit to Jodhpur's Mehrangarh Fort. Stay at Rawla Narlai. Dinner at the step-well.</p><p><strong>09:00</strong>   Drive from Jodhpur to Narlai</p><p><strong>09:00</strong>   Visit to Jodhpur's Mehrangarh Fort</p><p>Stay: Rawla Narlai</p><p><strong>19:30</strong>   Dinner at the step-well</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 3
+      },
+      "image": {
+        "file_id": 38541054,
+        "name": "Narlai 1"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244549-1009/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704247244-1006/City.html",
+          "name": "City",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704248354-1003/Excursion(1).html",
+          "name": "Excursion(1)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245961-1002/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704248069-1008/Excursion(2).html",
+          "name": "Excursion(2)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Narlai",
+      "content": "<p>Wander through the rustic charm of Narlai village by day and seek out leopards on an exhilarating safari through the wildlife-rich landscape.</p><p><strong>10:00</strong>   Morning Narlai village walk</p><p><strong>17:30</strong>   Leopard safari</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 4
+      },
+      "image": {
+        "file_id": 38541056,
+        "name": "Narlai 2"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244200-45070/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244702-52963/Excursion(1).html",
+          "name": "Excursion(1)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245023-996/Excursion(2).html",
+          "name": "Excursion(2)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Drive from Narlai to Shahpura",
+      "content": "<p>Journey from Narlai across the Rajasthani countryside to Shahpura Bagh.</p><p><strong>09:00</strong>   Drive from Narlai to Shahpura</p><p>Stay: Shahpura Bagh</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 5
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244557-1002/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245539-52963/City.html",
+          "name": "City",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245209-996/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Day At Leisure",
+      "content": "<p><strong>09:00</strong>   Day At Leisure</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 6
+      }
+    },
+    {
+      "headline": "Drive from Shahpura to Jaipur",
+      "content": "<p>Drive from Shahpura to Jaipur, the Pink City, and check into Laalee before exploring the majestic hilltop citadel of Amber Fort.</p><p><strong>09:00</strong>   Drive from Shahpura to Jaipur</p><p>Stay: Laalee </p><p><strong>14:00</strong>   Half-day excursion to Amber Fort</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 7
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244547-45420/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245509-41396/City.html",
+          "name": "City",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245172-1009/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245995-1008/Excursion.html",
+          "name": "Excursion",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Jaipur",
+      "content": "<p>Pedal through Jaipur's rose-colored streets on an early morning cycle tour, then dive deep into authentic Indian home cooking with an intimate culinary lesson from a local housewife.</p><p><strong>06:30</strong>   Early morning \"Pink Inside\" cycle tour of Jaipur</p><p><strong>10:30</strong>   A culinary tour with an Indian housewife</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 8
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244514-41396/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245304-1009/Excursion(1).html",
+          "name": "Excursion(1)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245298-45420/Excursion(2).html",
+          "name": "Excursion(2)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Drive from Jaipur to Delhi",
+      "content": "<p>An afternoon drive returns you from Jaipur to Delhi and Andaz Delhi.</p><p><strong>15:00</strong>   Drive from Jaipur to Delhi</p><p>Stay: Andaz Delhi</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 9
+      },
+      "image": {
+        "file_id": 38539532,
+        "name": "Delhi 2"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244559-1008/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245185-45070/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Flight from Delhi to Nagpur",
+      "content": "<p>Depart from Delhi on Indigo flight 6E 6619 to Nagpur, then drive into the heart of tiger country at Tadoba, arriving at Waghoba Eco Lodge.</p><p><strong>10:45</strong>   Departure transfer from your hotel to Delhi Domestic airport</p><p><strong>13:45</strong>   Flight Indigo flight 6E 6619 from Delhi to Nagpur</p><p><strong>15:30</strong>   Drive from Nagpur to Tadoba</p><p>Stay: Waghoba Eco Lodge</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 10
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244559-41396/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245543-45031/City.html",
+          "name": "City",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245207-52963/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Tadoba",
+      "content": "<p>Venture into the core wilderness of Tadoba National Park on back-to-back private jeep safaris from Moharli Gate, stalking tigers and leopards through pristine terrain.</p><p><strong>06:00</strong>   Private jeep safari in core area of Tadoba N.P from Moharli Gate</p><p><strong>15:00</strong>   Private jeep safari in core area of Tadoba N.P from Moharli Gate</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 11
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244548-996/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245360-45070/Excursion(1).html",
+          "name": "Excursion(1)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245350-1008/Excursion(2).html",
+          "name": "Excursion(2)",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Tadoba",
+      "content": "<p>Track wildlife morning and afternoon through the buffer zone of Tadoba National Park via Kolara Gate.</p><p><strong>06:00</strong>   Morning and afternoon jeep safaris in buffer zone of Tadoba N.P. via Kolara Gate</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 12
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244514-1006/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245335-1002/Excursion.html",
+          "name": "Excursion",
+          "icon_id": 284,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Drive from Tadoba to Nagpur",
+      "content": "<p>An early morning drive carries you from Tadoba to Nagpur for your Indigo flight 6E 2099 back to Delhi, followed by transfer to The Imperial Hotel.</p><p><strong>09:00</strong>   Drive from Tadoba to Nagpur</p><p><strong>13:40</strong>   Flight Indigo flight 6E 2099 from Nagpur to Delhi</p><p><strong>15:25</strong>   Arrival transfer from Delhi Domestic airport to your hotel</p><p>Stay: The Imperial Hotel</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 13
+      },
+      "image": {
+        "file_id": 38539531,
+        "name": "Delhi 1"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244568-45070/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        },
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704245215-1022/Stay.html",
+          "name": "Stay",
+          "icon_id": 288,
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    },
+    {
+      "headline": "Depart from Delhi",
+      "content": "<p>Depart Delhi from the international terminal for your onward journey.</p><p><strong>06:50</strong>   Departure transfer from your hotel to Delhi International airport</p>",
+      "content_type": "text/html",
+      "meta": {
+        "day_number": 14
+      },
+      "image": {
+        "file_id": 38539532,
+        "name": "Delhi 2"
+      },
+      "documents": [
+        {
+          "file_url": "s3://vamoos-live/uploads/OdysseyIndia/2026/7/22/1784704244559-1022/Services.html",
+          "name": "Services",
+          "meta": {
+            "source": "presto-sync"
+          }
+        }
+      ]
+    }
+  ],
+  "vamoos_id": 2941568,
+  "is_active": true
+}
